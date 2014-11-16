@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#FFFFFF</color>
+    <color name="login_bg">#F5F5F5</color>
+    <color name="dialog_bg">#F0F0F0</color>
+    <color name="red">#FF0000</color>
+    <color name="black">#000000</color>
+    <color name="main_blue">#05B0DE</color>
+    <color name="gray">#cccccc</color>
+    <color name="pop_list_pressed">#bdbdbd</color>
+    <color name="header_divider">#d6bf9e</color>
+    <!-- 橙黄 -->
+    <color name="accent_1">#ff29549f</color>
+    <color name="divider_line_color">#dfdfdf</color>
+    <color name="white_80_alpha">#ccffffff</color>
+    <!-- 灰色分割线 -->
+    <color name="gray_divider_line_color">#9c9c9c</color>
+    <!-- 联系人界面分割线 -->
+    <color name="gray_divider_line_color_contact">#b5b5b5</color>
+    <!-- 联系人，全选时的绿色 -->
+    <color name="green_all_selected_text">#49D960</color>
+    <!-- 聊天界面底部灰色 -->
+    <color name="chat_bottom_gray_bg">#e2e6e9</color>
+    <!-- 标题背景蓝色 -->
+    <color name="title_bg_blue">#2D93D9</color>
+    <color name="news_gray">#9D9D9D</color>
+    <color name="tv_bucket">#2A2A2A</color>
+    <color name="main_item_checked">#F18E62</color>
+    <color name="group_bg">#F8F8F8</color>
+    <color name="display_and_hide_pressed">#008ad1</color>
+    <color name="agree_pressed">#df0f0e</color>
+    <color name="not_agree_pressed">#2081c3</color>
+
+</resources>

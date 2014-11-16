@@ -1,0 +1,73 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/login_bg" >
+
+    <include
+        android:id="@+id/layout_title"
+        layout="@layout/title_with_back_btn_wrap" />
+
+    <LinearLayout
+        android:id="@+id/layout_action"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/layout_title"
+        android:layout_margin="5dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_choose_class"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_login_selector"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="@string/choose_class"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btn_choose_drop_pick_mode "
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_login_selector"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="@string/drop_pick_mode"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btn_choose_sub_mode"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_login_selector"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="@string/sub_mode"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/gv_student"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/layout_action"
+        android:cacheColorHint="@android:color/transparent"
+        android:clickable="true"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="true"
+        android:horizontalSpacing="10dp"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="3"
+        android:padding="10dp"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp" />
+
+</RelativeLayout>

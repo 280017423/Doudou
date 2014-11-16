@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android=" http://schemas.android.com/apk/res/android" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- 系统 -->
+    <string name="app_name">豆豆接送</string>
+    <string name="exit_dialog_title">确定要退出吗？</string>
+    <string name="more">更多</string>
+    <string name="title_back_text">返回</string>
+    <string name="network_is_not_available">当前网络不给力\n建议检查网络状态</string>
+    <string name="choose_class">选择班级</string>
+    <string name="drop_pick_mode">接送方式</string>
+    <string name="sub_mode">考勤状态</string>
+
+    <!-- 登录 -->
+    <string name="button_text_login">登录</string>
+    <string name="toast_login_error">登录信息不能为空</string>
+    <string name="hint_input_username">User Name</string>
+    <string name="hint_input_pwd">Password</string>
+    <string name="remember_me">记住我</string>
+    <!-- 通用 -->
+    <string name="button_text_yes">好的</string>
+    <string name="text_ensure">确定</string>
+    <string name="button_text_no">取消</string>
+    <string name="button_text_tips">提示</string>
+    <string name="btn_txt_no">否</string>
+    <string name="btn_txt_yes">是</string>
+
+    <!-- 我的审核 -->
+
+</resources>

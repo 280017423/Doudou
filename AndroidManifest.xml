@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.jnhlxd.doudou"
+    android:versionCode="10000"
+    android:versionName="1.0.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="21" />
+
+    <!-- Required  一些系统要求的权限，如访问网络等 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <application
+        android:name="com.jnhlxd.doudou.app.DoudouApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/ThemeActivity" >
+        <meta-data
+            android:name="db_version"
+            android:value="1" />
+        <meta-data
+            android:name="db_name"
+            android:value="doudou.db" />
+        <meta-data
+            android:name="crash_log_path"
+            android:value="/sdcard/doudou/crash/" />
+        <meta-data
+            android:name="crash_report_ext"
+            android:value=".log" />
+        <meta-data
+            android:name="image_dir"
+            android:value="doudou/com.jnhlxd.doudou/image" />
+        <meta-data
+            android:name="http_cache_dir"
+            android:value="doudou/com.jnhlxd.doudou/cache" />
+        <meta-data
+            android:name="email_log_enable"
+            android:value="true" />
+        <meta-data
+            android:name="error_log_enable"
+            android:value="true" />
+        <meta-data
+            android:name="debug_log_enable"
+            android:value="true" />
+        <meta-data
+            android:name="api_root_url"
+            android:value="http://xytv2.api.ikisos.com/api" />
+        <meta-data
+            android:name="is_developing"
+            android:value="false" />
+        <meta-data
+            android:name="appSign"
+            android:value="aiikis" />
+
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.LoadingActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.NewerGuidingActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

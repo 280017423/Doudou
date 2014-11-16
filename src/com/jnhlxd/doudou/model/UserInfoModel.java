@@ -1,0 +1,66 @@
+package com.jnhlxd.doudou.model;
+
+import com.qianjiang.framework.orm.BaseModel;
+
+public class UserInfoModel extends BaseModel {
+	private static final long serialVersionUID = -4763716679331905978L;
+	private String teacher_id;
+	private String name;
+	private String pwd;
+	private String email;
+	private String tel;
+	private int pubSchoolNews;
+
+	public int getPubSchoolNews() {
+		return pubSchoolNews;
+	}
+
+	public boolean canPubSchoolNews() {
+		return pubSchoolNews == 1 ? true : false;
+	}
+
+	public void setPubSchoolNews(int pubSchoolNews) {
+		this.pubSchoolNews = pubSchoolNews;
+	}
+
+	public String getTeacherId() {
+		return teacher_id;
+	}
+
+	public void setTeacherId(String teacher_id) {
+		this.teacher_id = teacher_id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPwd() {
+		return pwd;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+}

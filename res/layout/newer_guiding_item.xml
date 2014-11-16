@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:descendantFocusability="blocksDescendants" >
+
+    <Button
+        android:id="@+id/btn_jump_to_main"
+        android:layout_width="152dp"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:background="@color/transparent"
+        android:focusable="false"
+        android:visibility="visible" >
+    </Button>
+
+</FrameLayout>

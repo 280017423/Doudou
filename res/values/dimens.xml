@@ -1,0 +1,13 @@
+<resources>
+
+    <!-- 文字大小dimen -->
+    <dimen name="size_1">20sp</dimen>
+    <dimen name="size_2">18sp</dimen>
+    <dimen name="size_3">16sp</dimen>
+    <dimen name="size_4">14sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="actionbar_height">45dip</dimen>
+    <dimen name="actionbar_item_width">45dip</dimen>
+    <dimen name="border_radius_with_dimensions">0.7dp</dimen>
+
+</resources>
