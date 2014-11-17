@@ -41,7 +41,7 @@ public class UserReq {
 	 */
 	public static ActionResult login(String name, String pwd) {
 		ActionResult result = new ActionResult();
-		String url = ServerAPIConstant.getUrl(ServerAPIConstant.LOGIN_API);
+		String url = ServerAPIConstant.getUrl(ServerAPIConstant.API_LOGIN);
 		List<NameValuePair> postParams = new ArrayList<NameValuePair>();
 		postParams.add(new BasicNameValuePair(ServerAPIConstant.KEY_USER_NAME, name));
 		postParams.add(new BasicNameValuePair(ServerAPIConstant.KEY_PWD, pwd));
@@ -61,7 +61,7 @@ public class UserReq {
 					userInfoModel.setPwd(pwd);
 					UserMgr.saveUserInfo(userInfoModel);
 					// 保存管理对应的班级信息
-					UserMgr.updateClassInfoModels(classInfoModels);
+					UserMgr.saveClassInfoModels(classInfoModels);
 					// 保存学校信息
 					UserMgr.saveSchoolInfoModel(schoolInfoModel);
 				}

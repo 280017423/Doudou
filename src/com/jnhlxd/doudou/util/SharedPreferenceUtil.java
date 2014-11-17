@@ -189,7 +189,7 @@ public class SharedPreferenceUtil {
 	 *            需要保存的对象
 	 */
 	public static synchronized void saveObject(Context mContext, String fileName, Object obj) {
-		saveObject(mContext, fileName, obj, null);
+		saveObject(mContext, fileName, obj, obj.getClass().getName());
 	}
 
 	/**
@@ -265,7 +265,7 @@ public class SharedPreferenceUtil {
 	 * @throws
 	 */
 	public static Object getObject(Context mContext, String fileName, Class<?> clazz) {
-		return getObject(mContext, fileName, clazz, null);
+		return getObject(mContext, fileName, clazz, clazz.getName());
 	}
 
 	/**

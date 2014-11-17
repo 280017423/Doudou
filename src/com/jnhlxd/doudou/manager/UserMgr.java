@@ -26,11 +26,9 @@ public class UserMgr {
 	}
 
 	/**
-	 * 登出方法
+	 * 注销登录
 	 */
 	public static void logout() {
-		// 清除本地的用户信息
-		clearUserInfoModel();
 		// 清除所有的用户数据
 		DBUtil.clearAllTables();
 		// 重置本地状态
@@ -39,6 +37,12 @@ public class UserMgr {
 		HttpClientUtil.setCookieStore(null);
 	}
 
+	/**
+	 * 保存用户信息
+	 * 
+	 * @param userInfoModel
+	 *            用户信息
+	 */
 	public static void saveUserInfo(UserInfoModel userInfoModel) {
 		if (userInfoModel == null) {
 			return;
@@ -49,28 +53,27 @@ public class UserMgr {
 					&& !userInfoModel.getName().equals(localModel.getName())) {
 				// 当前登录的用户和本地的用户信息不一致就删除本地的用户记录
 				// 清除本地的用户信息
-				clearUserInfoModel();
+				clearConfigInfo();
 				// 清除所有的用户数据
 				DBUtil.clearAllTables();
 			}
 		}
-		SharedPreferenceUtil.saveObject(QJApplicationBase.CONTEXT, ConstantSet.USER_INFO_SHAREDPREFERENCE_NAME,
+		SharedPreferenceUtil.saveObject(QJApplicationBase.CONTEXT, ConstantSet.KEY_FILE_DOUDOU_CONFIG_FILE,
 				userInfoModel);
 	}
 
-	public static void clearConfigInfo() {
-		SharedPreferenceUtil.clearObject(QJApplicationBase.CONTEXT, ConstantSet.FILE_QIANJIANG_CONFIG);
+	private static void clearConfigInfo() {
+		SharedPreferenceUtil.clearObject(QJApplicationBase.CONTEXT, ConstantSet.KEY_FILE_DOUDOU_CONFIG_FILE);
 	}
 
-	public static void clearUserInfoModel() {
-		SharedPreferenceUtil.clearObject(QJApplicationBase.CONTEXT, ConstantSet.USER_INFO_SHAREDPREFERENCE_NAME);
-		SharedPreferenceUtil.clearObject(QJApplicationBase.CONTEXT, ConstantSet.SYSTEM_INFO_SHAREDPREFERENCE_NAME);
-		SharedPreferenceUtil.clearObject(QJApplicationBase.CONTEXT, ConstantSet.SCHOOL_INFO_SHAREDPREFERENCE_NAME);
-	}
-
+	/**
+	 * 获取用户信息
+	 * 
+	 * @return UserInfoModel
+	 */
 	public static UserInfoModel getUserInfoModel() {
 		UserInfoModel userInfoModel = (UserInfoModel) SharedPreferenceUtil.getObject(QJApplicationBase.CONTEXT,
-				ConstantSet.USER_INFO_SHAREDPREFERENCE_NAME, UserInfoModel.class);
+				ConstantSet.KEY_FILE_DOUDOU_CONFIG_FILE, UserInfoModel.class);
 		return userInfoModel;
 	}
 
@@ -84,26 +87,42 @@ public class UserMgr {
 		return userInfoModel != null && !StringUtil.isNullOrEmpty(userInfoModel.getTeacherId());
 	}
 
+	/**
+	 * 获取学校信息
+	 * 
+	 * @return schoolInfoModel 学校信息
+	 */
 	public static SchoolInfoModel getSchoolInfoModel() {
 		SchoolInfoModel schoolInfoModel = (SchoolInfoModel) SharedPreferenceUtil.getObject(QJApplicationBase.CONTEXT,
-				ConstantSet.SCHOOL_INFO_SHAREDPREFERENCE_NAME, SchoolInfoModel.class);
+				ConstantSet.KEY_FILE_DOUDOU_CONFIG_FILE, SchoolInfoModel.class);
 		return schoolInfoModel;
 	}
 
+	/**
+	 * 保存学校信息
+	 * 
+	 * @param schoolInfoModel
+	 *            学校信息
+	 */
 	public static void saveSchoolInfoModel(final SchoolInfoModel schoolInfoModel) {
 		if (schoolInfoModel == null) {
 			return;
 		}
-		SharedPreferenceUtil.saveObject(QJApplicationBase.CONTEXT, ConstantSet.SCHOOL_INFO_SHAREDPREFERENCE_NAME,
+		SharedPreferenceUtil.saveObject(QJApplicationBase.CONTEXT, ConstantSet.KEY_FILE_DOUDOU_CONFIG_FILE,
 				schoolInfoModel);
 	}
 
-	public static void updateClassInfoModels(List<ClassInfoModel> classInfoModels) {
+	/**
+	 * 保存班级信息列表
+	 * 
+	 * @param classInfoModels
+	 *            班级信息列表
+	 */
+	public static void saveClassInfoModels(List<ClassInfoModel> classInfoModels) {
 		if (classInfoModels != null) {
 			DataManager dataManager = DBUtil.getDataManager();
 			dataManager.beginTransaction();
 			try {
-				// 清空，重新保存
 				dataManager.delete(ClassInfoModel.class, null, null);
 				for (ClassInfoModel classInfoModel : classInfoModels) {
 					if (classInfoModel != null) {
@@ -117,6 +136,11 @@ public class UserMgr {
 		}
 	}
 
+	/**
+	 * 获取班级信息
+	 * 
+	 * @return List<ClassInfoModel> 班级信息列表
+	 */
 	public static List<ClassInfoModel> getClassInfoModels() {
 		List<ClassInfoModel> classInfoModels = new ArrayList<ClassInfoModel>();
 		DataManager dataManager = DBUtil.getDataManager();
@@ -127,22 +151,5 @@ public class UserMgr {
 		} catch (Exception e) {
 		}
 		return classInfoModels;
-	}
-
-	public static String getClassIdString(String split) {
-		String splitStr = split;
-		StringBuffer resultBuffer = new StringBuffer();
-		if (StringUtil.isNullOrEmpty(splitStr)) {
-			splitStr = ",";
-		}
-		List<ClassInfoModel> classInfoModels = getClassInfoModels();
-		for (ClassInfoModel classInfoModel : classInfoModels) {
-			resultBuffer.append(classInfoModel.getKeyId() + split);
-		}
-		if (resultBuffer.length() > split.length()) {
-			// 清除掉最后一个分隔符
-			resultBuffer.delete(resultBuffer.length() - split.length(), resultBuffer.length());
-		}
-		return resultBuffer.toString();
 	}
 }

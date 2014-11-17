@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import cn.jpush.android.api.JPushInterface;
 
 import com.jnhlxd.doudou.R;
 import com.jnhlxd.doudou.authentication.ActionResult;
@@ -36,14 +35,12 @@ public class ActivityBase extends QJActivityBase implements IDialogProtocol {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		JPushInterface.onPause(this);
 		MobclickAgent.onPause(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		JPushInterface.onResume(this);
 		MobclickAgent.onResume(this);
 	}
 

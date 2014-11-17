@@ -3,6 +3,7 @@ package com.jnhlxd.doudou.adapter;
 import java.util.List;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -67,9 +68,26 @@ public class StudentAdapter extends BaseAdapter {
 		} else {
 			holder = (Holder) convertView.getTag();
 		}
-		StudentModel item = mDataList.get(position);
-		if (null != item) {
-			holder.mTvName.setText(item.getName());
+		StudentModel model = mDataList.get(position);
+		if (null != model) {
+			holder.mTvName.setText(model.getName());
+			int status = model.getSignModel();
+			switch (status) {
+				case StudentModel.SIGN_TYPE_NOT_SIGN:
+					holder.mTvName.setBackgroundResource(R.drawable.student_not_sign_selector);
+					holder.mTvName.setTextColor(Color.BLACK);
+					break;
+				case StudentModel.SIGN_TYPE_SIGNING:
+					holder.mTvName.setBackgroundResource(R.drawable.student_signing_selector);
+					holder.mTvName.setTextColor(Color.WHITE);
+					break;
+				case StudentModel.SIGN_TYPE_SIGNED:
+					holder.mTvName.setBackgroundResource(R.drawable.student_signed_selector);
+					holder.mTvName.setTextColor(Color.BLACK);
+					break;
+				default:
+					break;
+			}
 		}
 		return convertView;
 	}

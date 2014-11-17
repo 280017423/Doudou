@@ -70,7 +70,7 @@
             android:value="false" />
         <meta-data
             android:name="appSign"
-            android:value="aiikis" />
+            android:value="qianjiang" />
 
         <activity
             android:name=".activity.MainActivity"

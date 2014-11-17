@@ -1,6 +1,7 @@
 package com.jnhlxd.doudou.util;
 
 import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.PopupWindow;
@@ -17,20 +18,16 @@ import com.jnhlxd.doudou.listener.OnPopDismissListener;
 public class PopWindowUtil {
 	private View mMenuView;
 	private PopupWindow mPopupWindow;
-	private View mView;
 	private OnPopDismissListener mListener;
 
 	/**
-	 * @param contentView
+	 * @param menuView
 	 *            需要显示的view
-	 * @param view
-	 *            PopWindow相对位置的视图
 	 * @param listener
-	 *            popwindow消失监听
+	 *            PopWindow消失监听
 	 */
-	public PopWindowUtil(View contentView, View view, OnPopDismissListener listener) {
-		this.mMenuView = contentView;
-		mView = view;
+	public PopWindowUtil(View menuView, OnPopDismissListener listener) {
+		this.mMenuView = menuView;
 		mListener = listener;
 		initView();
 	}
@@ -39,7 +36,7 @@ public class PopWindowUtil {
 	 * 初始化
 	 */
 	private void initView() {
-		mPopupWindow = new PopupWindow(mMenuView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		mPopupWindow = new PopupWindow(mMenuView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		mPopupWindow.setContentView(mMenuView);
 		mPopupWindow.setFocusable(true);
 		// 点击popupwindow窗口之外的区域popupwindow消失
@@ -58,28 +55,41 @@ public class PopWindowUtil {
 	}
 
 	/**
-	 * 用来显示和关闭PopWindow
+	 * 消失Pop
 	 */
-	public void changeStatus() {
-		if (null != mPopupWindow) {
-			if (mPopupWindow.isShowing()) {
-				mPopupWindow.dismiss();
-			} else {
-				mPopupWindow.showAsDropDown(mView, 0, 0);
-			}
+	public void dismiss() {
+		if (null == mPopupWindow) {
+			return;
+		}
+		if (mPopupWindow.isShowing()) {
+			mPopupWindow.dismiss();
 		}
 	}
 
 	/**
+	 * 显示Pop
 	 * 
-	 * @Description 消失
-	 * @Author admin
-	 * @Date 2014-8-26 下午4:11:10
-	 * 
+	 * @param view
+	 *            PopWindow相对位置的视图
 	 */
-	public void dissmiss() {
-		if (mPopupWindow != null && mPopupWindow.isShowing()) {
-			mPopupWindow.dismiss();
+	public void showAsDropDown(View view) {
+		if (null == mPopupWindow) {
+			return;
+		}
+		if (!mPopupWindow.isShowing()) {
+			mPopupWindow.showAsDropDown(view);
+		}
+	}
+
+	/**
+	 * 显示Pop
+	 */
+	public void show() {
+		if (null == mPopupWindow) {
+			return;
+		}
+		if (!mPopupWindow.isShowing()) {
+			mPopupWindow.showAtLocation(mMenuView, Gravity.CENTER, 0, 0);
 		}
 	}
 

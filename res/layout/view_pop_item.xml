@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:layout_height="fill_parent" >
 
     <TextView
-        android:id="@+id/tv_student_name"
+        android:id="@+id/tv_teacher_name"
         android:layout_width="fill_parent"
         android:layout_height="35dp"
         android:background="@drawable/student_not_sign_selector"
+        android:duplicateParentState="true"
         android:ellipsize="end"
         android:gravity="center"
         android:singleLine="true"
         android:textColor="@color/black"
-        android:textSize="@dimen/size_4" />
+        android:textSize="@dimen/size_3" />
 
-</LinearLayout>
+</RelativeLayout>

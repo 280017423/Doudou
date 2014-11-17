@@ -153,7 +153,7 @@ public class NewerAdapter extends PagerAdapter {
 				} catch (NameNotFoundException e) {
 					EvtLog.e(TAG, e);
 				}
-				SharedPreferenceUtil.saveValue(mContext, ConstantSet.KEY_NEWER_GUIDING_FILE,
+				SharedPreferenceUtil.saveValue(mContext, ConstantSet.KEY_APPLICATION_CONFIG_FILE,
 						ConstantSet.KEY_NEWER_GUIDING_FINISH, code + "");
 			}
 		}.start();

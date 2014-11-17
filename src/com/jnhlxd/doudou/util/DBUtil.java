@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.jnhlxd.doudou.manager.DBMgr;
 import com.jnhlxd.doudou.model.ClassInfoModel;
+import com.jnhlxd.doudou.model.SchoolInfoModel;
+import com.jnhlxd.doudou.model.SignModel;
+import com.jnhlxd.doudou.model.StudentModel;
 import com.jnhlxd.doudou.model.SystemModel;
 import com.qianjiang.framework.app.QJApplicationBase;
 import com.qianjiang.framework.orm.DataManager;
@@ -26,8 +29,11 @@ public class DBUtil {
 	static {
 		if (DATABASE_BUILDER == null) {
 			DATABASE_BUILDER = new DatabaseBuilder(PackageUtil.getConfigString("db_name"));
-			DATABASE_BUILDER.addClass(SystemModel.class);
 			DATABASE_BUILDER.addClass(ClassInfoModel.class);
+			DATABASE_BUILDER.addClass(SchoolInfoModel.class);
+			DATABASE_BUILDER.addClass(SignModel.class);
+			DATABASE_BUILDER.addClass(StudentModel.class);
+			DATABASE_BUILDER.addClass(SystemModel.class);
 		}
 	}
 

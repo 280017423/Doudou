@@ -64,8 +64,8 @@ public class LoginActivity extends ActivityBase implements OnClickListener {
 		mEdtChildName = (EditText) findViewById(R.id.edt_child_name);
 		mEdtTel = (EditText) findViewById(R.id.edt_tel);
 		mCbRememberMe = (CheckBox) findViewById(R.id.cb_remember_me);
-		mCbRememberMe.setChecked(SharedPreferenceUtil.getBooleanValueByKey(this, ConstantSet.FILE_XYT_CONFIG,
-				ConstantSet.KEY_IS_REMEMBER_ME, true));
+		mCbRememberMe.setChecked(SharedPreferenceUtil.getBooleanValueByKey(this,
+				ConstantSet.KEY_APPLICATION_CONFIG_FILE, ConstantSet.KEY_IS_REMEMBER_ME, true));
 		UserInfoModel userInfoModel = UserMgr.getUserInfoModel();
 		if (userInfoModel != null && !StringUtil.isNullOrEmpty(userInfoModel.getTeacherId())) {
 			if (mCbRememberMe.isChecked()) {
@@ -151,7 +151,7 @@ public class LoginActivity extends ActivityBase implements OnClickListener {
 				toast(loginInfo);
 				LoginProcessor.getInstance().onLoginSuccess(LoginActivity.this, mIdentify);
 				// 登录成功就记录记住我的状态，登出就清除该状态
-				SharedPreferenceUtil.saveValue(LoginActivity.this, ConstantSet.FILE_XYT_CONFIG,
+				SharedPreferenceUtil.saveValue(LoginActivity.this, ConstantSet.KEY_APPLICATION_CONFIG_FILE,
 						ConstantSet.KEY_IS_REMEMBER_ME, mCbRememberMe.isChecked());
 			} else {
 				// 登录失败

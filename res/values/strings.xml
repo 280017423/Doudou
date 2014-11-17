@@ -10,12 +10,14 @@
     <string name="choose_class">选择班级</string>
     <string name="drop_pick_mode">接送方式</string>
     <string name="sub_mode">考勤状态</string>
+    <string name="manual_sign">手动打卡</string>
+    <string name="choose_student">请先选择学生</string>
 
     <!-- 登录 -->
     <string name="button_text_login">登录</string>
     <string name="toast_login_error">登录信息不能为空</string>
-    <string name="hint_input_username">User Name</string>
-    <string name="hint_input_pwd">Password</string>
+    <string name="hint_input_username">用户名</string>
+    <string name="hint_input_pwd">密码</string>
     <string name="remember_me">记住我</string>
     <!-- 通用 -->
     <string name="button_text_yes">好的</string>
@@ -24,7 +26,5 @@
     <string name="button_text_tips">提示</string>
     <string name="btn_txt_no">否</string>
     <string name="btn_txt_yes">是</string>
-
-    <!-- 我的审核 -->
 
 </resources>

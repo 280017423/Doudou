@@ -12,11 +12,18 @@ import com.qianjiang.framework.orm.BaseModel;
  */
 public class StudentModel extends BaseModel {
 	private static final long serialVersionUID = -343050591556595626L;
+	// 未打卡
+	public static final int SIGN_TYPE_NOT_SIGN = 1;
+	// 已打卡，但是未提交
+	public static final int SIGN_TYPE_SIGNING = 2;
+	// 已提交
+	public static final int SIGN_TYPE_SIGNED = 3;
 	private String child_id;
 	private String class_id;
 	private String headIcon;
 	private String name;
 	private String signId;
+	private int signModel = SIGN_TYPE_NOT_SIGN;
 
 	public String getChild_id() {
 		return child_id;
@@ -56,6 +63,14 @@ public class StudentModel extends BaseModel {
 
 	public void setSignId(String signId) {
 		this.signId = signId;
+	}
+
+	public int getSignModel() {
+		return signModel;
+	}
+
+	public void setSignModel(int signModel) {
+		this.signModel = signModel;
 	}
 
 }

@@ -68,7 +68,7 @@ public class LoadingActivity extends ActivityBase {
 	private boolean isJumpToNewerGuiding() {
 
 		String versionString = SharedPreferenceUtil.getStringValueByKey(LoadingActivity.this,
-				ConstantSet.KEY_NEWER_GUIDING_FILE, ConstantSet.KEY_NEWER_GUIDING_FINISH);
+				ConstantSet.KEY_APPLICATION_CONFIG_FILE, ConstantSet.KEY_NEWER_GUIDING_FINISH);
 		int code = -1;
 		try {
 			code = PackageUtil.getVersionCode();
