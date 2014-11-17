@@ -32,9 +32,6 @@ public class PopWindowUtil {
 		initView();
 	}
 
-	/**
-	 * 初始化
-	 */
 	private void initView() {
 		mPopupWindow = new PopupWindow(mMenuView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		mPopupWindow.setContentView(mMenuView);

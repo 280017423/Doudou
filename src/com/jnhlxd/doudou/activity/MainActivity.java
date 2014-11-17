@@ -23,14 +23,22 @@ import android.widget.TextView;
 
 import com.jnhlxd.doudou.R;
 import com.jnhlxd.doudou.adapter.PopClassAdapter;
+import com.jnhlxd.doudou.adapter.PopDropPickAdapter;
 import com.jnhlxd.doudou.adapter.StudentAdapter;
+import com.jnhlxd.doudou.db.PunchDao;
 import com.jnhlxd.doudou.manager.PunchMgr;
 import com.jnhlxd.doudou.manager.UserMgr;
+import com.jnhlxd.doudou.model.ClassInfoModel;
+import com.jnhlxd.doudou.model.DropPickModel;
+import com.jnhlxd.doudou.model.SignModel;
 import com.jnhlxd.doudou.model.StudentModel;
 import com.jnhlxd.doudou.service.PunchService;
 import com.jnhlxd.doudou.service.PunchService.PunchBinder;
+import com.jnhlxd.doudou.util.ConstantSet;
 import com.jnhlxd.doudou.util.PopWindowUtil;
 import com.qianjiang.framework.util.EvtLog;
+import com.qianjiang.framework.util.NetUtil;
+import com.qianjiang.framework.util.StringUtil;
 
 /**
  * 应用主界面
@@ -44,15 +52,20 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 	private GridView mGvStudent;
 	private List<StudentModel> mStudentModels;
 	private List<StudentModel> mSelectModels;
+	private List<DropPickModel> mDropPickModels;
+	private List<ClassInfoModel> mClassInfoModels;
 	private StudentAdapter mAdapter;
+	private PopDropPickAdapter mPopDropPickAdapter;
+	private PopClassAdapter mPopClassAdapter;
 	private PunchService mService;
 	private PopWindowUtil mChooseClassPopUtil;
 	private PopWindowUtil mDropPickPopUtil;
-	private PopWindowUtil mSubModePopUtil;
 	private TextView mTvChooseClass;
 	private TextView mTvDropPick;
-	private TextView mTvSubMode;
 	private int mCurrentModel;
+	private ClassInfoModel mClassInfoModel;
+	private DropPickModel mDropPickModel;
+	private TextView mTvToastInfo;
 
 	private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -85,6 +98,7 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		mIntentFilter.addAction(ConstantSet.ACTION_DEFAULT_BROAD);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initVariables();
@@ -103,6 +117,9 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 	private void getStudents() {
 		for (int i = 0; i < 50; i++) {
 			StudentModel model = new StudentModel();
+			model.setChild_id(i + "");
+			model.setClass_id(6 + "");
+			model.setSignId(i + "");
 			model.setName("测试同学" + i);
 			mStudentModels.add(model);
 		}
@@ -110,35 +127,100 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 	}
 
 	private void initVariables() {
+		mDropPickModel = PunchDao.getCurrentModule();
+		mClassInfoModels = UserMgr.getClassInfoModels();
 		mStudentModels = new ArrayList<StudentModel>();
 		mSelectModels = new ArrayList<StudentModel>();
 		mAdapter = new StudentAdapter(this, mStudentModels);
-
+		mDropPickModels = PunchMgr.getSignModules();
+		mPopDropPickAdapter = new PopDropPickAdapter(this, mDropPickModels);
+		mPopClassAdapter = new PopClassAdapter(this, mClassInfoModels);
 	}
 
 	private void initView() {
 		initTitle();
 		mTvChooseClass = (TextView) findViewById(R.id.tv_choose_class);
+		mTvToastInfo = (TextView) findViewById(R.id.tv_toast_info);
 		mTvDropPick = (TextView) findViewById(R.id.tv_drop_pick_mode);
-		mTvSubMode = (TextView) findViewById(R.id.tv_choose_sub_mode);
 		mBtnManualSign = (Button) findViewById(R.id.btn_manual_sign);
 		mGvStudent = (GridView) findViewById(R.id.gv_student);
 		mGvStudent.setAdapter(mAdapter);
 		initClassPop();
+		initDropPickPop();
+		if (null != mDropPickModel) {
+			mTvDropPick.setText(mDropPickModel.getSignModeName());
+		}
+		if (null != mClassInfoModels && !mClassInfoModels.isEmpty()) {
+			ClassInfoModel model = mClassInfoModels.get(0);
+			if (null != model) {
+				model.setCurrentModel(1);
+				mTvChooseClass.setText(model.getClass_name());
+				mPopClassAdapter.notifyDataSetChanged();
+			}
+		}
 	}
 
 	private void initClassPop() {
 		View contentView = View.inflate(this, R.layout.view_pop_teacher, null);
+		contentView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mChooseClassPopUtil.dismiss();
+			}
+		});
 		mChooseClassPopUtil = new PopWindowUtil(contentView, null);
 		GridView gridView = (GridView) contentView.findViewById(R.id.gv_pop_teacher);
-		gridView.setAdapter(new PopClassAdapter(this));
+		gridView.setAdapter(mPopClassAdapter);
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				mChooseClassPopUtil.dismiss();
+				mClassInfoModel = (ClassInfoModel) parent.getAdapter().getItem(position);
+				if (null == mClassInfoModel) {
+					return;
+				}
+				int size = mClassInfoModels.size();
+				for (int i = 0; i < size; i++) {
+					ClassInfoModel model = mClassInfoModels.get(i);
+					if (mClassInfoModel.getClass_id() == model.getClass_id()) {
+						model.setCurrentModel(1);
+					} else {
+						model.setCurrentModel(0);
+					}
+				}
+				mPopClassAdapter.notifyDataSetChanged();
+				mTvChooseClass.setText(mClassInfoModel.getClass_name());
 			}
 		});
+	}
 
+	private void initDropPickPop() {
+		View contentView = View.inflate(this, R.layout.view_pop_teacher, null);
+		contentView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mChooseClassPopUtil.dismiss();
+			}
+		});
+		mDropPickPopUtil = new PopWindowUtil(contentView, null);
+		GridView gridView = (GridView) contentView.findViewById(R.id.gv_pop_teacher);
+		gridView.setAdapter(mPopDropPickAdapter);
+		gridView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				mDropPickPopUtil.dismiss();
+				mDropPickModel = (DropPickModel) parent.getAdapter().getItem(position);
+				if (null != mDropPickModel) {
+					mTvDropPick.setText(mDropPickModel.getSignModeName());
+					DropPickModel.updateCurrentMode(mDropPickModel.getSignMode());
+					mDropPickModels.clear();
+					mDropPickModels.addAll(PunchMgr.getSignModules());
+					mPopDropPickAdapter.notifyDataSetChanged();
+				}
+			}
+		});
 	}
 
 	private void initTitle() {
@@ -192,8 +274,7 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 				mChooseClassPopUtil.show();
 				break;
 			case R.id.ll_drop_pick_mode:
-				break;
-			case R.id.ll_choose_sub_mode:
+				mDropPickPopUtil.show();
 				break;
 
 			default:
@@ -214,6 +295,7 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 			PunchMgr.savePunchModel2Db(signId, mCurrentModel);
 			model.setSignModel(StudentModel.SIGN_TYPE_SIGNED);
 		}
+		mSelectModels.clear();
 		refreash();
 		mAdapter.notifyDataSetChanged();
 	}
@@ -252,6 +334,38 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 		} else {
 			mBtnManualSign.setVisibility(View.VISIBLE);
 		}
+	}
+
+	private void refreashToast() {
+		final List<SignModel> models = PunchMgr.getLocalPunchInfo();
+		if (null == models) {
+			return;
+		}
+		int size = models.size();
+		String netInfo = "";
+		if (!NetUtil.isNetworkAvailable()) {
+			netInfo = getString(R.string.network_is_not_found);
+		}
+		if (size <= 0) {
+			mTvToastInfo.setVisibility(View.GONE);
+		} else {
+			mTvToastInfo.setVisibility(View.VISIBLE);
+			if (!StringUtil.isNullOrEmpty(netInfo)) {
+				netInfo = netInfo + ",";
+			}
+			mTvToastInfo.setText(netInfo + getString(R.string.left_student_count, size));
+		}
+	}
+
+	@Override
+	protected void processBroadReceiver(String action, Object data) {
+		if (StringUtil.isNullOrEmpty(action)) {
+			return;
+		}
+		if (ConstantSet.ACTION_DEFAULT_BROAD.equals(action)) {
+			refreashToast();
+		}
+		super.processBroadReceiver(action, data);
 	}
 
 	@Override

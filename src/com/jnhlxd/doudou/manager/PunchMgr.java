@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.jnhlxd.doudou.db.DbDao;
 import com.jnhlxd.doudou.db.PunchDao;
+import com.jnhlxd.doudou.model.DropPickModel;
 import com.jnhlxd.doudou.model.SignModel;
 import com.qianjiang.framework.util.DateUtil;
 import com.qianjiang.framework.util.EvtLog;
@@ -52,5 +53,15 @@ public class PunchMgr {
 		model.setSignMode(signMode);
 		model.setSignTime(DateUtil.getSysDate(DateUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM));
 		DbDao.saveModel(model);
+	}
+
+	/**
+	 * 获取考勤模块
+	 * 
+	 * @return List<SignModuleModel> 考勤模块
+	 */
+	public static List<DropPickModel> getSignModules() {
+		List<DropPickModel> models = DbDao.getModels(DropPickModel.class);
+		return models;
 	}
 }

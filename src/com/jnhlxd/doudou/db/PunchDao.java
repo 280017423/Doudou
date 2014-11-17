@@ -3,6 +3,7 @@ package com.jnhlxd.doudou.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jnhlxd.doudou.model.DropPickModel;
 import com.jnhlxd.doudou.model.SignModel;
 import com.jnhlxd.doudou.util.ConstantSet;
 import com.jnhlxd.doudou.util.DBUtil;
@@ -21,6 +22,7 @@ public class PunchDao {
 
 	private static final String EQUAl = " = ";
 	private static final String QUOTES = "\"";
+	private static final String PRIMARY_KEY_WHERE = " = ?";
 
 	private PunchDao() {
 	}
@@ -60,6 +62,66 @@ public class PunchDao {
 		try {
 			results = dataManager.getList(SignModel.class, true, null, null, null, null, null,
 					ConstantSet.INFO_NUM_IN_ONE_PAGE + "");
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+		dataManager.close();
+		return results;
+	}
+
+	/**
+	 * 获取当前的打卡模式
+	 * 
+	 * @return SignModuleModel 打卡模式对象
+	 */
+	public static DropPickModel getCurrentModule() {
+		DropPickModel results = null;
+		DataManager dataManager = DBUtil.getDataManager();
+		dataManager.open();
+		try {
+			results = dataManager.get(DropPickModel.class, DropPickModel.IS_CURRENT_MODEL + PRIMARY_KEY_WHERE,
+					new String[] { "1" });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+		dataManager.close();
+		return results;
+	}
+
+	/**
+	 * 指定model值的打卡模式
+	 * 
+	 * @param model
+	 *            指定的model值
+	 * @return SignModuleModel 打卡模式对象
+	 */
+	public static DropPickModel getModule(int model) {
+		DropPickModel results = null;
+		DataManager dataManager = DBUtil.getDataManager();
+		dataManager.open();
+		try {
+			results = dataManager.get(DropPickModel.class, DropPickModel.SIGN_MODE + PRIMARY_KEY_WHERE,
+					new String[] { "" + model });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+		dataManager.close();
+		return results;
+	}
+
+	/**
+	 * 更新打卡模式
+	 * 
+	 * @param model
+	 *            打卡模式
+	 * @return int 受影响的行数
+	 */
+	public static int updateModel(DropPickModel model) {
+		int results = -1;
+		DataManager dataManager = DBUtil.getDataManager();
+		dataManager.open();
+		try {
+			results = dataManager.update(model);
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		}

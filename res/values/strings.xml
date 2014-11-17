@@ -7,11 +7,13 @@
     <string name="more">更多</string>
     <string name="title_back_text">返回</string>
     <string name="network_is_not_available">当前网络不给力\n建议检查网络状态</string>
+    <string name="network_is_not_found">当前无网络</string>
     <string name="choose_class">选择班级</string>
     <string name="drop_pick_mode">接送方式</string>
     <string name="sub_mode">考勤状态</string>
     <string name="manual_sign">手动打卡</string>
     <string name="choose_student">请先选择学生</string>
+    <string name="left_student_count">还有<xliff:g>%1$s</xliff:g>条记录未提交</string>
 
     <!-- 登录 -->
     <string name="button_text_login">登录</string>

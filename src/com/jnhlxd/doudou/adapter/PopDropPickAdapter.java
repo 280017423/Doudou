@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jnhlxd.doudou.R;
-import com.jnhlxd.doudou.model.ClassInfoModel;
+import com.jnhlxd.doudou.model.DropPickModel;
 
 /**
  * 选班级列表适配器
@@ -18,29 +18,29 @@ import com.jnhlxd.doudou.model.ClassInfoModel;
  * @since 2013-03-12 下午04:37:29
  * @version 1.0
  */
-public class PopClassAdapter extends BaseAdapter {
-	private List<ClassInfoModel> mClassInfoModels;
+public class PopDropPickAdapter extends BaseAdapter {
+	private List<DropPickModel> mDropPickModels;
 	private Context mContext;
 
 	/**
 	 * @param context
 	 *            上下文对象
 	 * @param models
-	 *            班级数据
+	 *            接送数据
 	 */
-	public PopClassAdapter(Context context, List<ClassInfoModel> models) {
-		mClassInfoModels = models;
+	public PopDropPickAdapter(Context context, List<DropPickModel> models) {
+		mDropPickModels = models;
 		mContext = context;
 	}
 
 	@Override
 	public int getCount() {
-		return mClassInfoModels == null ? 0 : mClassInfoModels.size();
+		return mDropPickModels == null ? 0 : mDropPickModels.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return mClassInfoModels == null ? null : mClassInfoModels.get(position);
+		return mDropPickModels == null ? null : mDropPickModels.get(position);
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class PopClassAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ClassInfoModel classInfoModel = (ClassInfoModel) getItem(position);
+		DropPickModel model = (DropPickModel) getItem(position);
 		ViewHoder hoder = null;
 		if (convertView == null) {
 			convertView = View.inflate(mContext, R.layout.view_pop_item, null);
@@ -60,12 +60,12 @@ public class PopClassAdapter extends BaseAdapter {
 		} else {
 			hoder = (ViewHoder) convertView.getTag();
 		}
-		if (classInfoModel.isCurrentModel()) {
+		hoder.mTvClassName.setText(model.getSignModeName());
+		if (model.isCurrentModel()) {
 			hoder.mTvClassName.setBackgroundResource(R.drawable.student_signing_selector);
 		} else {
 			hoder.mTvClassName.setBackgroundResource(R.drawable.student_not_sign_selector);
 		}
-		hoder.mTvClassName.setText(classInfoModel.getClass_name());
 		return convertView;
 	}
 

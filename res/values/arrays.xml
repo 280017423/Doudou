@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="default_speech_msg">
+        <item>已上车</item>
+        <item>已下车</item>
+        <item>已入园</item>
+        <item>已出园</item>
+        <item>已上车</item>
+        <item>已下车</item>
+    </string-array>
+    <string-array name="drop_pick_name">
+        <item>入园上车</item>
+        <item>入园下车</item>
+        <item>入园</item>
+        <item>出园</item>
+        <item>离园上车</item>
+        <item>离园下车</item>
+    </string-array>
+
+</resources>

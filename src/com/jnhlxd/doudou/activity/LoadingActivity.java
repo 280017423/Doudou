@@ -1,5 +1,6 @@
 package com.jnhlxd.doudou.activity;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,6 +11,9 @@ import android.view.KeyEvent;
 
 import com.jnhlxd.doudou.R;
 import com.jnhlxd.doudou.authentication.ActionProcessor;
+import com.jnhlxd.doudou.db.DbDao;
+import com.jnhlxd.doudou.manager.PunchMgr;
+import com.jnhlxd.doudou.model.DropPickModel;
 import com.jnhlxd.doudou.util.ConstantSet;
 import com.jnhlxd.doudou.util.SharedPreferenceUtil;
 import com.qianjiang.framework.authentication.BaseLoginProcessor.LOGIN_TYPE;
@@ -29,11 +33,13 @@ import com.umeng.analytics.MobclickAgent;
 public class LoadingActivity extends ActivityBase {
 	private static final int DISPLAY_TIME = 3000;
 	private static final String TAG = "LoadingActivity";
+	private static final int SIGN_MODULE_MODEL_SIZE = 6;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_loading);
+		initSignModule();
 		MobclickAgent.updateOnlineConfig(this);
 		testJump();
 	}
@@ -79,5 +85,26 @@ public class LoadingActivity extends ActivityBase {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * 第一次启动，初始化打卡模块数据
+	 * 
+	 * @return void
+	 **/
+	private void initSignModule() {
+		List<DropPickModel> models = PunchMgr.getSignModules();
+		String[] defaultSpeechArray = getResources().getStringArray(R.array.default_speech_msg);
+		String[] dropPickNameArray = getResources().getStringArray(R.array.drop_pick_name);
+		if (null == models || SIGN_MODULE_MODEL_SIZE != models.size()) {
+			for (int i = 0; i < SIGN_MODULE_MODEL_SIZE; i++) {
+				DropPickModel model = new DropPickModel();
+				model.setSignMode(i + 1);
+				model.setCurrentModel(DropPickModel.SIGN_TYPE_IN_SCHOOL == model.getSignMode() ? 1 : 0); // 默认设置为入园模式
+				model.setSignToast(defaultSpeechArray[i]);
+				model.setSignModeName(dropPickNameArray[i]);
+				DbDao.saveModel(model);
+			}
+		}
 	}
 }
