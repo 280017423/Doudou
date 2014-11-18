@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@id/layout_title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal" >
@@ -122,5 +124,14 @@
         android:scrollbars="none"
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" />
+
+    <EditText
+        android:id="@+id/edt_input_punch_no"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:focusable="true"
+        android:inputType="text"
+        android:textSize="16sp" />
 
 </RelativeLayout>

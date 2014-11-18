@@ -104,6 +104,23 @@
 
         <receiver android:name="com.jnhlxd.doudou.service.PunchReceiver" >
         </receiver>
+         <service
+            android:name="com.umeng.update.net.DownloadingService"
+            android:process=":DownloadingService" >
+        </service>
+
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="546ab524fd98c58ae50047c8" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="develop" />
     </application>
 
 </manifest>

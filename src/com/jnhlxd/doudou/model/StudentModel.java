@@ -58,7 +58,7 @@ public class StudentModel extends BaseModel {
 	}
 
 	public String getSignId() {
-		return signId;
+		return null == signId ? "" : signId;
 	}
 
 	public void setSignId(String signId) {

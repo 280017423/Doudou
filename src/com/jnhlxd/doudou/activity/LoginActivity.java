@@ -24,6 +24,8 @@ import com.qianjiang.framework.util.ImeUtil;
 import com.qianjiang.framework.util.NetUtil;
 import com.qianjiang.framework.util.StringUtil;
 import com.qianjiang.framework.widget.LoadingUpView;
+import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UpdateConfig;
 
 /**
  * 登录界面
@@ -49,6 +51,11 @@ public class LoginActivity extends ActivityBase implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		// 友盟检查更新
+		UmengUpdateAgent.update(this);
+		UmengUpdateAgent.setUpdateOnlyWifi(false);
+		UmengUpdateAgent.setUpdateCheckConfig(true);
+		UpdateConfig.setDebug(false);
 		initVariable();
 		initView();
 	}

@@ -9,16 +9,24 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.jnhlxd.doudou.R;
@@ -45,9 +53,11 @@ import com.qianjiang.framework.util.StringUtil;
  * 
  * @author zou.sq
  */
-public class MainActivity extends ActivityBase implements OnClickListener, OnItemClickListener, OnItemLongClickListener {
+public class MainActivity extends ActivityBase implements OnKeyListener, OnClickListener, OnItemClickListener,
+		OnItemLongClickListener {
 	private static final String TAG = "MainActivity";
 	private static final int DIALOG_EXIT_APP = 0;
+	private static final int DISPLAY_TIME = 2000;
 	private Button mBtnManualSign;
 	private GridView mGvStudent;
 	private List<StudentModel> mStudentModels;
@@ -66,6 +76,8 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 	private ClassInfoModel mClassInfoModel;
 	private DropPickModel mDropPickModel;
 	private TextView mTvToastInfo;
+	private EditText mEdtPunchNo;
+	private PopupWindow mPopupWindow;
 
 	private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -112,6 +124,7 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 		mBtnManualSign.setOnClickListener(this);
 		mGvStudent.setOnItemClickListener(this);
 		mGvStudent.setOnItemLongClickListener(this);
+		mEdtPunchNo.setOnKeyListener(this);
 	}
 
 	private void getStudents() {
@@ -119,7 +132,11 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 			StudentModel model = new StudentModel();
 			model.setChild_id(i + "");
 			model.setClass_id(6 + "");
-			model.setSignId(i + "");
+			if (5 == i) {
+				model.setSignId("0277160416");
+			} else {
+				model.setSignId("" + i);
+			}
 			model.setName("测试同学" + i);
 			mStudentModels.add(model);
 		}
@@ -158,6 +175,13 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 				mPopClassAdapter.notifyDataSetChanged();
 			}
 		}
+		mEdtPunchNo = (EditText) findViewById(R.id.edt_input_punch_no);
+		mEdtPunchNo.setFocusable(true);
+		// 控制EditText点击时不弹出键盘
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(mEdtPunchNo.getWindowToken(), 0);
+		mEdtPunchNo.setInputType(0);
+		mEdtPunchNo.requestFocus();
 	}
 
 	private void initClassPop() {
@@ -201,7 +225,7 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 
 			@Override
 			public void onClick(View v) {
-				mChooseClassPopUtil.dismiss();
+				mDropPickPopUtil.dismiss();
 			}
 		});
 		mDropPickPopUtil = new PopWindowUtil(contentView, null);
@@ -280,7 +304,6 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 			default:
 				break;
 		}
-
 	}
 
 	private void submitSignInfo() {
@@ -325,7 +348,65 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		StudentModel model = (StudentModel) parent.getAdapter().getItem(position);
+		showPopupWindow(view, model);
 		return true;
+	}
+
+	private void showPopupWindow(View relativeView, StudentModel model) {
+		if (model == null || relativeView == null) {
+			return;
+		}
+		// 懒加载
+		if (mPopupWindow == null) {
+			View contentView = View.inflate(this, R.layout.send_msg_popwindow_layout, null);
+			mPopupWindow = new PopupWindow(contentView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+			mPopupWindow.setTouchable(true);
+			mPopupWindow.setOutsideTouchable(true);
+			ColorDrawable dw = new ColorDrawable(0x00);
+			mPopupWindow.setBackgroundDrawable(dw);
+		}
+		View contentView = mPopupWindow.getContentView();
+		TextView tvResend = (TextView) contentView.findViewById(R.id.tv_is_resend);
+		TextView tvDelete = (TextView) contentView.findViewById(R.id.tv_delete_fail_msg);
+		ImageView ivArrowUp = (ImageView) contentView.findViewById(R.id.iv_arrow_up);
+		ImageView ivArrowDown = (ImageView) contentView.findViewById(R.id.iv_arrow_down);
+		// 事件监听优化,如果没有TAG，说明是第一次进入，需要设置
+		if (tvResend != null && tvResend.getTag() == null) {
+			tvResend.setOnClickListener(this);
+		}
+		if (tvDelete != null && tvDelete.getTag() == null) {
+			tvDelete.setOnClickListener(this);
+		}
+		tvResend.setTag(model);
+		tvDelete.setTag(model);
+
+		int[] locationOnScreen = new int[2];
+		relativeView.getLocationOnScreen(locationOnScreen);
+		int height = relativeView.getMeasuredHeight();
+		int width = relativeView.getMeasuredWidth();
+		int contentViewWidth = contentView.getMeasuredWidth();
+		int offsetX = locationOnScreen[0];
+		int offsetY = locationOnScreen[1];
+		if (0 != contentViewWidth) {
+			offsetX = (int) (locationOnScreen[0] - (contentViewWidth - width) / 2.0);
+		}
+		if (relativeView.getTop() < 0) {
+			offsetY += height;
+			ivArrowDown.setVisibility(View.GONE);
+			ivArrowUp.setVisibility(View.VISIBLE);
+		} else {
+			ivArrowDown.setVisibility(View.VISIBLE);
+			ivArrowUp.setVisibility(View.GONE);
+			offsetY -= height;
+		}
+		mPopupWindow.showAtLocation(relativeView, Gravity.NO_GRAVITY, offsetX, offsetY);
+	}
+
+	private void dismissPopupwindow() {
+		if (mPopupWindow != null && mPopupWindow.isShowing()) {
+			mPopupWindow.dismiss();
+		}
 	}
 
 	private void refreash() {
@@ -372,5 +453,41 @@ public class MainActivity extends ActivityBase implements OnClickListener, OnIte
 	protected void onDestroy() {
 		unbindPunchService();
 		super.onDestroy();
+	}
+
+	@Override
+	public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+		if (KeyEvent.KEYCODE_ENTER == keyCode && KeyEvent.ACTION_DOWN == event.getAction()) {
+			doActionAgain(TAG, DISPLAY_TIME, new ActionListener() {
+
+				@Override
+				public void doAction() {
+					final String punchNo = mEdtPunchNo.getText().toString();
+					sendData(punchNo);
+				}
+			});
+			mEdtPunchNo.setText("");
+			return true;
+		}
+		return false;
+	}
+
+	private void sendData(String punchNo) {
+		if (StringUtil.isNullOrEmpty(punchNo)) {
+			return;
+		}
+		// 用来发送考勤数据
+		PunchMgr.savePunchModel2Db(punchNo, mCurrentModel);
+		if (null != mStudentModels && !mStudentModels.isEmpty()) {
+			int size = mStudentModels.size();
+			for (int i = 0; i < size; i++) {
+				StudentModel model = mStudentModels.get(i);
+				if (punchNo.equals(model.getSignId())) {
+					model.setSignModel(StudentModel.SIGN_TYPE_SIGNED);
+					break;
+				}
+			}
+		}
 	}
 }

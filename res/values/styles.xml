@@ -1,5 +1,45 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <style name="DashboardButton">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:width">100dp</item>
+        <item name="android:height">100dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/accent_1</item>
+        <item name="android:background">@drawable/umeng_strock_bg_1</item>
+    </style>
+
+    <style name="ActionBar">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/actionbar_height</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/actionbar_background</item>
+    </style>
+
+    <style name="ActionBarItem">
+        <item name="android:layout_width">@dimen/actionbar_item_width</item>
+        <item name="android:layout_height">@dimen/actionbar_height</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_marginLeft">1px</item>
+    </style>
+
+    <style name="ActionBarHomeItem" parent="ActionBarItem">
+        <item name="android:layout_marginRight">1px</item>
+        <item name="android:layout_marginLeft">0px</item>
+    </style>
+
+    <style name="ActionBarHomeLogo">
+        <item name="android:layout_marginRight">1px</item>
+        <item name="android:layout_marginLeft">0px</item>
+    </style>
+
+    <style name="ActionBarProgressBar" parent="@android:style/Widget.ProgressBar.Small"></style>
+
     <!-- application主题设置 -->
     <style name="ThemeActivity" mce_bogus="1" parent="android:Theme.Light">
         <item name="android:windowAnimationStyle">@style/AnimationActivity</item>

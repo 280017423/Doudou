@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/iv_arrow_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@null"
+        android:duplicateParentState="true"
+        android:src="@drawable/arrow_up"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_delete_fail_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_below="@id/iv_arrow_up"
+        android:background="@drawable/send_msg_fail_window_delete_bg"
+        android:gravity="center"
+        android:text="事假"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/view_divider_line"
+        android:layout_width="1px"
+        android:layout_height="46dp"
+        android:layout_below="@id/iv_arrow_up"
+        android:layout_toRightOf="@+id/tv_delete_fail_msg"
+        android:background="#99000000" />
+
+    <TextView
+        android:id="@+id/tv_is_resend"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_toRightOf="@+id/view_divider_line"
+        android:layout_below="@id/iv_arrow_up"
+        android:background="@drawable/send_msg_fail_window_resend_bg"
+        android:gravity="center"
+        android:text="病假"
+        android:textColor="@color/white" />
+
+    <ImageView
+        android:id="@+id/iv_arrow_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_delete_fail_msg"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@null"
+        android:duplicateParentState="true"
+        android:src="@drawable/send_msg_fail_window_resend_arrow_bg" />
+
+</RelativeLayout>
