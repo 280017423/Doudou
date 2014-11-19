@@ -49,15 +49,16 @@ public class LoadingActivity extends ActivityBase {
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				if (!isJumpToNewerGuiding()) {
-					// 跳过新手引导
-					// 取消程序启动的第一次自动登录，启动就跳转到登录界面v1.2.0
-					new ActionProcessor(true).startActivity(LoadingActivity.this, new Intent(
-							LoadingActivity.this, MainActivity.class), LOGIN_TYPE.Exit_To_Cancel_Apk);
-				} else {
-					// 跳转到新手引导
-					startActivity(new Intent(LoadingActivity.this, NewerGuidingActivity.class));
-				}
+				// if (!isJumpToNewerGuiding()) {
+				// 跳过新手引导
+				// 取消程序启动的第一次自动登录，启动就跳转到登录界面v1.2.0
+				new ActionProcessor(true).startActivity(LoadingActivity.this, new Intent(
+						LoadingActivity.this, MainActivity.class), LOGIN_TYPE.Exit_To_Cancel_Apk);
+				// } else {
+				// // 跳转到新手引导
+				// startActivity(new Intent(LoadingActivity.this,
+				// NewerGuidingActivity.class));
+				// }
 				finish();
 			}
 		}, DISPLAY_TIME);

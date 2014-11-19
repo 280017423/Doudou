@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">友盟SDK</string>
     <string name="umeng_example_home_btn_analytics">统计分析</string>
     <string name="umeng_example_home_btn_xp">应用联盟</string>
     <string name="umeng_example_home_btn_ad">移动广告</string>
@@ -26,9 +25,7 @@
     <string name="umeng_example_fb_home_btn_simple">简单反馈</string>
     <string name="actionbar_activity_not_found">打开Activity失败</string>
     <string name="umeng_example_home_hint_wait">敬请期待</string>
-
     <string name="intro"> 下面展示使用 js 调用友盟 自定义事件  APIs</string>
-    
     <string name="online_config">在线参数</string>
     <string name="make_crash">程序崩溃</string>
     <string name="kv_event">多属性(K-V)事件</string>
@@ -41,20 +38,19 @@
     <string name="social_analytics">社交统计</string>
     <string name="js_in_webview">Webview 统计</string>
     <string name="flush_cache">手动发送数据</string>
-    
     <string name="umeng_common_action_info_exist">正在下载中.</string>
-	<string name="umeng_common_info_interrupt">下载出错啦，请检查网络后继续。</string>
-	<string name="umeng_common_action_pause">暂停</string>
-	<string name="umeng_common_action_continue">继续</string>
-	<string name="umeng_common_action_cancel">取消</string>
-	<string name="umeng_common_download_notification_prefix">正在下载: </string>
-	<string name="umeng_common_pause_notification_prefix">暂停: </string>
-	<string name="umeng_common_start_download_notification">正在下载应用</string>
-	<string name="umeng_common_start_patch_notification">正在更新安装包</string>
+    <string name="umeng_common_info_interrupt">下载出错啦，请检查网络后继续。</string>
+    <string name="umeng_common_action_pause">暂停</string>
+    <string name="umeng_common_action_continue">继续</string>
+    <string name="umeng_common_action_cancel">取消</string>
+    <string name="umeng_common_download_notification_prefix">正在下载: </string>
+    <string name="umeng_common_pause_notification_prefix">暂停: </string>
+    <string name="umeng_common_start_download_notification">正在下载应用</string>
+    <string name="umeng_common_start_patch_notification">正在更新安装包</string>
     <string name="umeng_common_network_break_alert">请连接网络后再尝试！</string>
-	<string name="umeng_common_download_failed">下载失败</string>
-	<string name="umeng_common_download_finish">下载完成，请点击安装</string>
-	<string name="umeng_common_patch_finish">更新完成，请点击安装</string>
-	<string name="umeng_common_silent_download_finish">新版本已经准备好，请点击安装</string>
+    <string name="umeng_common_download_failed">下载失败</string>
+    <string name="umeng_common_download_finish">下载完成，请点击安装</string>
+    <string name="umeng_common_patch_finish">更新完成，请点击安装</string>
+    <string name="umeng_common_silent_download_finish">新版本已经准备好，请点击安装</string>
 
 </resources>
