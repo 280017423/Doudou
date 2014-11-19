@@ -14,6 +14,8 @@
     <string name="manual_sign">手动打卡</string>
     <string name="choose_student">请先选择学生</string>
     <string name="left_student_count">还有<xliff:g>%1$s</xliff:g>条记录未提交</string>
+    <string name="tv_casual_leave">事假</string>
+    <string name="tv_sick_leave">病假</string>
 
     <!-- 登录 -->
     <string name="button_text_login">登录</string>

@@ -71,7 +71,7 @@ public class StudentAdapter extends BaseAdapter {
 		StudentModel model = mDataList.get(position);
 		if (null != model) {
 			holder.mTvName.setText(model.getName());
-			int status = model.getSignModel();
+			int status = model.getSignModelStatus();
 			switch (status) {
 				case StudentModel.SIGN_TYPE_NOT_SIGN:
 					holder.mTvName.setBackgroundResource(R.drawable.student_not_sign_selector);

@@ -237,6 +237,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				mDropPickPopUtil.dismiss();
 				mDropPickModel = (DropPickModel) parent.getAdapter().getItem(position);
 				if (null != mDropPickModel) {
+					mCurrentModel = mDropPickModel.getSignMode();
 					mTvDropPick.setText(mDropPickModel.getSignModeName());
 					DropPickModel.updateCurrentMode(mDropPickModel.getSignMode());
 					mDropPickModels.clear();
@@ -300,6 +301,30 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 			case R.id.ll_drop_pick_mode:
 				mDropPickPopUtil.show();
 				break;
+			case R.id.tv_casual_leave:
+				dismissPopupwindow();
+				StudentModel casualLeaveModel = (StudentModel) v.getTag();
+				if (null == casualLeaveModel) {
+					return;
+				}
+				casualLeaveModel.setSignMode(DropPickModel.SIGN_TYPE_CASUAL_LEAVE);
+				casualLeaveModel.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNING);
+				mSelectModels.add(casualLeaveModel);
+				refreash();
+				mAdapter.notifyDataSetChanged();
+				break;
+			case R.id.tv_sick_leave:
+				dismissPopupwindow();
+				StudentModel sickLeaveModel = (StudentModel) v.getTag();
+				if (null == sickLeaveModel) {
+					return;
+				}
+				sickLeaveModel.setSignMode(DropPickModel.SIGN_TYPE_SICK_LEAVE);
+				sickLeaveModel.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNING);
+				mSelectModels.add(sickLeaveModel);
+				refreash();
+				mAdapter.notifyDataSetChanged();
+				break;
 
 			default:
 				break;
@@ -315,8 +340,8 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		for (int i = 0; i < size; i++) {
 			StudentModel model = mSelectModels.get(i);
 			String signId = model.getSignId();
-			PunchMgr.savePunchModel2Db(signId, mCurrentModel);
-			model.setSignModel(StudentModel.SIGN_TYPE_SIGNED);
+			PunchMgr.savePunchModel2Db(signId, model.getSignMode());
+			model.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNED);
 		}
 		mSelectModels.clear();
 		refreash();
@@ -329,14 +354,16 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		if (null == model) {
 			return;
 		}
-		int status = model.getSignModel();
+		int status = model.getSignModelStatus();
 		switch (status) {
 			case StudentModel.SIGN_TYPE_NOT_SIGN:
-				model.setSignModel(StudentModel.SIGN_TYPE_SIGNING);
+				model.setSignMode(mCurrentModel);
+				model.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNING);
 				mSelectModels.add(model);
 				break;
 			case StudentModel.SIGN_TYPE_SIGNING:
-				model.setSignModel(StudentModel.SIGN_TYPE_NOT_SIGN);
+				model.setSignMode(0);
+				model.setSignModelStatus(StudentModel.SIGN_TYPE_NOT_SIGN);
 				mSelectModels.remove(model);
 				break;
 			default:
@@ -349,14 +376,14 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 		StudentModel model = (StudentModel) parent.getAdapter().getItem(position);
-		showPopupWindow(view, model);
+		if (null != model && StudentModel.SIGN_TYPE_SIGNED != model.getSignModelStatus()) {
+			// 已经打卡成功的不弹框
+			showPopupWindow(view, model);
+		}
 		return true;
 	}
 
 	private void showPopupWindow(View relativeView, StudentModel model) {
-		if (model == null || relativeView == null) {
-			return;
-		}
 		// 懒加载
 		if (mPopupWindow == null) {
 			View contentView = View.inflate(this, R.layout.send_msg_popwindow_layout, null);
@@ -367,19 +394,19 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 			mPopupWindow.setBackgroundDrawable(dw);
 		}
 		View contentView = mPopupWindow.getContentView();
-		TextView tvResend = (TextView) contentView.findViewById(R.id.tv_is_resend);
-		TextView tvDelete = (TextView) contentView.findViewById(R.id.tv_delete_fail_msg);
+		TextView tvCasualLeave = (TextView) contentView.findViewById(R.id.tv_casual_leave);
+		TextView tvSickLeave = (TextView) contentView.findViewById(R.id.tv_sick_leave);
 		ImageView ivArrowUp = (ImageView) contentView.findViewById(R.id.iv_arrow_up);
 		ImageView ivArrowDown = (ImageView) contentView.findViewById(R.id.iv_arrow_down);
 		// 事件监听优化,如果没有TAG，说明是第一次进入，需要设置
-		if (tvResend != null && tvResend.getTag() == null) {
-			tvResend.setOnClickListener(this);
+		if (tvCasualLeave != null && tvCasualLeave.getTag() == null) {
+			tvCasualLeave.setOnClickListener(this);
 		}
-		if (tvDelete != null && tvDelete.getTag() == null) {
-			tvDelete.setOnClickListener(this);
+		if (tvSickLeave != null && tvSickLeave.getTag() == null) {
+			tvSickLeave.setOnClickListener(this);
 		}
-		tvResend.setTag(model);
-		tvDelete.setTag(model);
+		tvCasualLeave.setTag(model);
+		tvSickLeave.setTag(model);
 
 		int[] locationOnScreen = new int[2];
 		relativeView.getLocationOnScreen(locationOnScreen);
@@ -477,17 +504,20 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		if (StringUtil.isNullOrEmpty(punchNo)) {
 			return;
 		}
-		// 用来发送考勤数据
-		PunchMgr.savePunchModel2Db(punchNo, mCurrentModel);
 		if (null != mStudentModels && !mStudentModels.isEmpty()) {
 			int size = mStudentModels.size();
 			for (int i = 0; i < size; i++) {
 				StudentModel model = mStudentModels.get(i);
 				if (punchNo.equals(model.getSignId())) {
-					model.setSignModel(StudentModel.SIGN_TYPE_SIGNED);
+					model.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNED);
+					mSelectModels.remove(model);
+					refreash();
+					mAdapter.notifyDataSetChanged();
 					break;
 				}
 			}
 		}
+		// 用来发送考勤数据
+		PunchMgr.savePunchModel2Db(punchNo, mCurrentModel);
 	}
 }

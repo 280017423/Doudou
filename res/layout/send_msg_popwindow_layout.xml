@@ -14,13 +14,13 @@
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/tv_delete_fail_msg"
+        android:id="@+id/tv_casual_leave"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
         android:layout_below="@id/iv_arrow_up"
         android:background="@drawable/send_msg_fail_window_delete_bg"
         android:gravity="center"
-        android:text="事假"
+        android:text="@string/tv_casual_leave"
         android:textColor="@color/white" />
 
     <TextView
@@ -28,25 +28,25 @@
         android:layout_width="1px"
         android:layout_height="46dp"
         android:layout_below="@id/iv_arrow_up"
-        android:layout_toRightOf="@+id/tv_delete_fail_msg"
+        android:layout_toRightOf="@+id/tv_casual_leave"
         android:background="#99000000" />
 
     <TextView
-        android:id="@+id/tv_is_resend"
+        android:id="@+id/tv_sick_leave"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
-        android:layout_toRightOf="@+id/view_divider_line"
         android:layout_below="@id/iv_arrow_up"
+        android:layout_toRightOf="@+id/view_divider_line"
         android:background="@drawable/send_msg_fail_window_resend_bg"
         android:gravity="center"
-        android:text="病假"
+        android:text="@string/tv_sick_leave"
         android:textColor="@color/white" />
 
     <ImageView
         android:id="@+id/iv_arrow_down"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_delete_fail_msg"
+        android:layout_below="@id/tv_sick_leave"
         android:layout_centerHorizontal="true"
         android:contentDescription="@null"
         android:duplicateParentState="true"

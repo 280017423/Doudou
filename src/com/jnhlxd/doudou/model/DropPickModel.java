@@ -29,6 +29,10 @@ public class DropPickModel extends BaseModel {
 	public static final int SIGN_TYPE_UP_BUS_TO_HOME = 5;
 	// 放学下车签到模块
 	public static final int SIGN_TYPE_DOWN_BUS_TO_HOME = 6;
+	// 病假
+	public static final int SIGN_TYPE_SICK_LEAVE = 7;
+	// 事假
+	public static final int SIGN_TYPE_CASUAL_LEAVE = 8;
 
 	private static final long serialVersionUID = 3353521583726991281L;
 

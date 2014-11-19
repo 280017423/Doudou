@@ -23,7 +23,8 @@ public class StudentModel extends BaseModel {
 	private String headIcon;
 	private String name;
 	private String signId;
-	private int signModel = SIGN_TYPE_NOT_SIGN;
+	private int signModelStatus = SIGN_TYPE_NOT_SIGN;
+	private int signMode;
 
 	public String getChild_id() {
 		return child_id;
@@ -65,12 +66,20 @@ public class StudentModel extends BaseModel {
 		this.signId = signId;
 	}
 
-	public int getSignModel() {
-		return signModel;
+	public int getSignModelStatus() {
+		return signModelStatus;
 	}
 
-	public void setSignModel(int signModel) {
-		this.signModel = signModel;
+	public void setSignModelStatus(int signModelStatus) {
+		this.signModelStatus = signModelStatus;
+	}
+
+	public int getSignMode() {
+		return signMode;
+	}
+
+	public void setSignMode(int signMode) {
+		this.signMode = signMode;
 	}
 
 }
