@@ -97,7 +97,7 @@ public class NewerAdapter extends PagerAdapter {
 					// 开启线程保存用戶是否完成新手引导的状态
 					saveNewerGuidingStatus();
 					EvtLog.d("newer_guiding", "点击按钮，准备跳转至主界面时的时间:  " + System.currentTimeMillis());
-					jumpToMain();
+					jumpToLogin();
 				}
 			});
 			if (mImages.length - 1 == position) {
@@ -159,14 +159,10 @@ public class NewerAdapter extends PagerAdapter {
 		}.start();
 	}
 
-	private void jumpToMain() {
-		// 如果已经有用户信息了，跳转到首页，没有用户信息，跳转到登录界面
-		if (UserMgr.hasUserInfo()) {
-			mContext.startActivity(new Intent(mContext, MainActivity.class));
-		} else {
-			new ActionProcessor(true).startActivity(mContext, new Intent(mContext, MainActivity.class),
-					LOGIN_TYPE.Exit_To_Cancel_Apk);
-		}
+	private void jumpToLogin() {
+		// 直接跳转到登录界面
+		new ActionProcessor(true).startActivity(mContext, new Intent(mContext, MainActivity.class),
+				LOGIN_TYPE.Exit_To_Cancel_Apk);
 		mContext.finish();
 	}
 
