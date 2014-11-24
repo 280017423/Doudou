@@ -12,7 +12,7 @@ import com.qianjiang.framework.authentication.BaseActionResult;
 public class ActionResult extends BaseActionResult {
 
 	/**
-	 * 网络异常
+	 * 登录成功
 	 */
 	public static final String RESULT_CODE_SUCCESS = "1000";
 	/**
