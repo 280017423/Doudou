@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jnhlxd.doudou.R;
+import com.jnhlxd.doudou.model.DropPickModel;
 import com.jnhlxd.doudou.model.StudentModel;
 
 /**
@@ -64,6 +65,7 @@ public class StudentAdapter extends BaseAdapter {
 			holder = new Holder();
 			convertView = View.inflate(mActivity, R.layout.view_student_item, null);
 			holder.mTvName = (TextView) convertView.findViewById(R.id.tv_student_name);
+			holder.mTvSignStatus = (TextView) convertView.findViewById(R.id.tv_sign_status);
 			convertView.setTag(holder);
 		} else {
 			holder = (Holder) convertView.getTag();
@@ -76,14 +78,27 @@ public class StudentAdapter extends BaseAdapter {
 				case StudentModel.SIGN_TYPE_NOT_SIGN:
 					holder.mTvName.setBackgroundResource(R.drawable.student_not_sign_selector);
 					holder.mTvName.setTextColor(Color.BLACK);
+					holder.mTvSignStatus.setVisibility(View.GONE);
 					break;
 				case StudentModel.SIGN_TYPE_SIGNING:
 					holder.mTvName.setBackgroundResource(R.drawable.student_signing_selector);
 					holder.mTvName.setTextColor(Color.WHITE);
+					holder.mTvSignStatus.setVisibility(View.GONE);
 					break;
 				case StudentModel.SIGN_TYPE_SIGNED:
 					holder.mTvName.setBackgroundResource(R.drawable.student_signed_selector);
 					holder.mTvName.setTextColor(Color.BLACK);
+					if (DropPickModel.SIGN_TYPE_CASUAL_LEAVE == model.getSignMode()) {
+						holder.mTvSignStatus.setText("事");
+						holder.mTvSignStatus.setBackgroundResource(R.drawable.sign_status_bg);
+					} else if (DropPickModel.SIGN_TYPE_SICK_LEAVE == model.getSignMode()) {
+						holder.mTvSignStatus.setText("病");
+						holder.mTvSignStatus.setBackgroundResource(R.drawable.sign_status_bg);
+					} else {
+						holder.mTvSignStatus.setText("");
+						holder.mTvSignStatus.setBackgroundResource(R.drawable.sign_status_ok_bg);
+					}
+					holder.mTvSignStatus.setVisibility(View.VISIBLE);
 					break;
 				default:
 					break;
@@ -94,5 +109,6 @@ public class StudentAdapter extends BaseAdapter {
 
 	class Holder {
 		private TextView mTvName;
+		private TextView mTvSignStatus;
 	}
 }

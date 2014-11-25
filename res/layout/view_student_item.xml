@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/tv_student_name"
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:background="@drawable/student_not_sign_selector"
         android:ellipsize="end"
         android:gravity="center"
@@ -15,4 +15,16 @@
         android:textColor="@color/black"
         android:textSize="@dimen/size_4" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_sign_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/sign_status_bg"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size_4"
+        android:visibility="gone" />
+
+</RelativeLayout>
