@@ -9,10 +9,10 @@ import com.jnhlxd.doudou.model.SchoolInfoModel;
 import com.jnhlxd.doudou.model.UserInfoModel;
 import com.jnhlxd.doudou.util.ConstantSet;
 import com.jnhlxd.doudou.util.DBUtil;
-import com.jnhlxd.doudou.util.SharedPreferenceUtil;
 import com.qianjiang.framework.app.QJApplicationBase;
 import com.qianjiang.framework.orm.DataManager;
 import com.qianjiang.framework.util.HttpClientUtil;
+import com.qianjiang.framework.util.SharedPreferenceUtil;
 import com.qianjiang.framework.util.StringUtil;
 
 /**

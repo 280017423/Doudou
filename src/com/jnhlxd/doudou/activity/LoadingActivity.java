@@ -15,10 +15,10 @@ import com.jnhlxd.doudou.db.DbDao;
 import com.jnhlxd.doudou.manager.PunchMgr;
 import com.jnhlxd.doudou.model.DropPickModel;
 import com.jnhlxd.doudou.util.ConstantSet;
-import com.jnhlxd.doudou.util.SharedPreferenceUtil;
 import com.qianjiang.framework.authentication.BaseLoginProcessor.LOGIN_TYPE;
 import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.PackageUtil;
+import com.qianjiang.framework.util.SharedPreferenceUtil;
 import com.qianjiang.framework.util.StringUtil;
 import com.umeng.analytics.MobclickAgent;
 
