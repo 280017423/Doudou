@@ -33,7 +33,9 @@ import com.jnhlxd.doudou.R;
 import com.jnhlxd.doudou.adapter.PopClassAdapter;
 import com.jnhlxd.doudou.adapter.PopDropPickAdapter;
 import com.jnhlxd.doudou.adapter.StudentAdapter;
+import com.jnhlxd.doudou.db.ClassDao;
 import com.jnhlxd.doudou.db.PunchDao;
+import com.jnhlxd.doudou.db.StudentDao;
 import com.jnhlxd.doudou.manager.PunchMgr;
 import com.jnhlxd.doudou.manager.UserMgr;
 import com.jnhlxd.doudou.model.ClassInfoModel;
@@ -116,7 +118,6 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		initVariables();
 		initView();
 		setListener();
-		getStudents();
 		bindPunchService();
 	}
 
@@ -127,25 +128,18 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		mEdtPunchNo.setOnKeyListener(this);
 	}
 
-	private void getStudents() {
-		for (int i = 0; i < 50; i++) {
-			StudentModel model = new StudentModel();
-			model.setChild_id(i + "");
-			model.setClass_id(6 + "");
-			if (5 == i) {
-				model.setSignId("0277160416");
-			} else {
-				model.setSignId("" + i);
-			}
-			model.setName("测试同学" + i);
-			mStudentModels.add(model);
+	private void getStudents(String classId) {
+		List<StudentModel> models = StudentDao.getStudentModels(classId);
+		if (null != models) {
+			mStudentModels.clear();
+			mStudentModels.addAll(models);
+			mAdapter.notifyDataSetChanged();
 		}
-		mAdapter.notifyDataSetChanged();
 	}
 
 	private void initVariables() {
 		mDropPickModel = PunchDao.getCurrentModule();
-		mClassInfoModels = UserMgr.getClassInfoModels();
+		mClassInfoModels = ClassDao.getClassInfoModels();
 		mStudentModels = new ArrayList<StudentModel>();
 		mSelectModels = new ArrayList<StudentModel>();
 		mAdapter = new StudentAdapter(this, mStudentModels);
@@ -173,6 +167,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				model.setCurrentModel(1);
 				mTvChooseClass.setText(model.getClass_name());
 				mPopClassAdapter.notifyDataSetChanged();
+				getStudents(model.getClass_id());
 			}
 		}
 		mEdtPunchNo = (EditText) findViewById(R.id.edt_input_punch_no);
@@ -213,6 +208,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 						model.setCurrentModel(0);
 					}
 				}
+				getStudents(mClassInfoModel.getClass_id());
 				mPopClassAdapter.notifyDataSetChanged();
 				mTvChooseClass.setText(mClassInfoModel.getClass_name());
 			}

@@ -16,10 +16,10 @@ import com.jnhlxd.doudou.R;
 import com.jnhlxd.doudou.activity.MainActivity;
 import com.jnhlxd.doudou.authentication.ActionProcessor;
 import com.jnhlxd.doudou.util.ConstantSet;
+import com.jnhlxd.doudou.util.SharedPreferenceUtil;
 import com.qianjiang.framework.authentication.BaseLoginProcessor.LOGIN_TYPE;
 import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.PackageUtil;
-import com.qianjiang.framework.util.SharedPreferenceUtil;
 import com.qianjiang.framework.util.UIUtil;
 
 /**

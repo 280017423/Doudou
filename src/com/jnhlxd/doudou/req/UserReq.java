@@ -8,9 +8,12 @@ import org.apache.http.message.BasicNameValuePair;
 
 import com.jnhlxd.doudou.R;
 import com.jnhlxd.doudou.authentication.ActionResult;
+import com.jnhlxd.doudou.db.ClassDao;
+import com.jnhlxd.doudou.db.StudentDao;
 import com.jnhlxd.doudou.manager.UserMgr;
 import com.jnhlxd.doudou.model.ClassInfoModel;
 import com.jnhlxd.doudou.model.SchoolInfoModel;
+import com.jnhlxd.doudou.model.StudentModel;
 import com.jnhlxd.doudou.model.UserInfoModel;
 import com.jnhlxd.doudou.util.ServerAPIConstant;
 import com.pdw.gson.reflect.TypeToken;
@@ -57,13 +60,17 @@ public class UserReq {
 					List<ClassInfoModel> classInfoModels = jsonResult.getData(ServerAPIConstant.KEY_CLASS_INFO,
 							new TypeToken<List<ClassInfoModel>>() {
 							}.getType());
+					List<StudentModel> childfoModels = jsonResult.getData(ServerAPIConstant.KEY_CHILDS,
+							new TypeToken<List<StudentModel>>() {
+							}.getType());
 					// 保存用户信息
 					userInfoModel.setPwd(pwd);
 					UserMgr.saveUserInfo(userInfoModel);
 					// 保存管理对应的班级信息
-					UserMgr.saveClassInfoModels(classInfoModels);
+					ClassDao.saveClassInfoModels(classInfoModels);
 					// 保存学校信息
 					UserMgr.saveSchoolInfoModel(schoolInfoModel);
+					StudentDao.saveStudentModels(childfoModels);
 				}
 				// 登录成功有积分提示语
 				result.ResultObject = jsonResult.Msg;

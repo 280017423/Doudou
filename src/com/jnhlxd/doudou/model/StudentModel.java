@@ -1,6 +1,7 @@
 package com.jnhlxd.doudou.model;
 
 import com.qianjiang.framework.orm.BaseModel;
+import com.qianjiang.framework.orm.annotation.Transient;
 
 /**
  * 
@@ -12,6 +13,7 @@ import com.qianjiang.framework.orm.BaseModel;
  */
 public class StudentModel extends BaseModel {
 	private static final long serialVersionUID = -343050591556595626L;
+	public static final String KEY_CLASS_ID = "CLASSID";
 	// 未打卡
 	public static final int SIGN_TYPE_NOT_SIGN = 1;
 	// 已打卡，但是未提交
@@ -23,7 +25,9 @@ public class StudentModel extends BaseModel {
 	private String headIcon;
 	private String name;
 	private String signId;
+	@Transient
 	private int signModelStatus = SIGN_TYPE_NOT_SIGN;
+	@Transient
 	private int signMode;
 
 	public String getChild_id() {

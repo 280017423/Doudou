@@ -9,19 +9,6 @@ public class UserInfoModel extends BaseModel {
 	private String pwd;
 	private String email;
 	private String tel;
-	private int pubSchoolNews;
-
-	public int getPubSchoolNews() {
-		return pubSchoolNews;
-	}
-
-	public boolean canPubSchoolNews() {
-		return pubSchoolNews == 1 ? true : false;
-	}
-
-	public void setPubSchoolNews(int pubSchoolNews) {
-		this.pubSchoolNews = pubSchoolNews;
-	}
 
 	public String getTeacherId() {
 		return teacher_id;

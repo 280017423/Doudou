@@ -64,13 +64,13 @@
             android:value="true" />
         <meta-data
             android:name="api_root_url"
-            android:value="http://xytv2.api.ikisos.com/api" />
+            android:value="http://60.216.5.227:1043" />
         <meta-data
             android:name="is_developing"
             android:value="false" />
         <meta-data
             android:name="appSign"
-            android:value="qianjiang" />
+            android:value="ios" />
 
         <activity
             android:name=".activity.MainActivity"
