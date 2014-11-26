@@ -13,15 +13,15 @@ import com.qianjiang.framework.orm.annotation.Transient;
  */
 public class StudentModel extends BaseModel {
 	private static final long serialVersionUID = -343050591556595626L;
-	public static final String KEY_CLASS_ID = "CLASSID";
+	public static final String KEY_CLASS_ID = "CLASS_ID";
 	// 未打卡
 	public static final int SIGN_TYPE_NOT_SIGN = 1;
 	// 已打卡，但是未提交
 	public static final int SIGN_TYPE_SIGNING = 2;
 	// 已提交
 	public static final int SIGN_TYPE_SIGNED = 3;
-	private String child_id;
-	private String class_id;
+	private String childId;
+	private String classId;
 	private String headIcon;
 	private String name;
 	private String signId;
@@ -30,20 +30,20 @@ public class StudentModel extends BaseModel {
 	@Transient
 	private int signMode;
 
-	public String getChild_id() {
-		return child_id;
+	public String getChildId() {
+		return null == childId ? "" : childId;
 	}
 
-	public void setChild_id(String child_id) {
-		this.child_id = child_id;
+	public void setChildId(String childId) {
+		this.childId = childId;
 	}
 
-	public String getClass_id() {
-		return class_id;
+	public String getClassId() {
+		return null == classId ? "" : classId;
 	}
 
-	public void setClass_id(String class_id) {
-		this.class_id = class_id;
+	public void setClassId(String classId) {
+		this.classId = classId;
 	}
 
 	public String getHeadIcon() {

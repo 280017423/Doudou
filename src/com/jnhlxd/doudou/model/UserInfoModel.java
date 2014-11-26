@@ -4,18 +4,18 @@ import com.qianjiang.framework.orm.BaseModel;
 
 public class UserInfoModel extends BaseModel {
 	private static final long serialVersionUID = -4763716679331905978L;
-	private String teacher_id;
+	private String teacherId;
 	private String name;
 	private String pwd;
 	private String email;
 	private String tel;
 
 	public String getTeacherId() {
-		return teacher_id;
+		return teacherId;
 	}
 
 	public void setTeacherId(String teacher_id) {
-		this.teacher_id = teacher_id;
+		this.teacherId = teacher_id;
 	}
 
 	public String getName() {

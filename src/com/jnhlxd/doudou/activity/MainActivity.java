@@ -165,9 +165,9 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 			ClassInfoModel model = mClassInfoModels.get(0);
 			if (null != model) {
 				model.setCurrentModel(1);
-				mTvChooseClass.setText(model.getClass_name());
+				mTvChooseClass.setText(model.getClassName());
 				mPopClassAdapter.notifyDataSetChanged();
-				getStudents(model.getClass_id());
+				getStudents(model.getClassId());
 			}
 		}
 		mEdtPunchNo = (EditText) findViewById(R.id.edt_input_punch_no);
@@ -202,15 +202,15 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				int size = mClassInfoModels.size();
 				for (int i = 0; i < size; i++) {
 					ClassInfoModel model = mClassInfoModels.get(i);
-					if (mClassInfoModel.getClass_id() == model.getClass_id()) {
+					if (mClassInfoModel.getClassId() == model.getClassId()) {
 						model.setCurrentModel(1);
 					} else {
 						model.setCurrentModel(0);
 					}
 				}
-				getStudents(mClassInfoModel.getClass_id());
+				getStudents(mClassInfoModel.getClassId());
 				mPopClassAdapter.notifyDataSetChanged();
-				mTvChooseClass.setText(mClassInfoModel.getClass_name());
+				mTvChooseClass.setText(mClassInfoModel.getClassName());
 			}
 		});
 	}

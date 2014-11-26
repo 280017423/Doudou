@@ -9,7 +9,7 @@ public class SchoolInfoModel extends BaseModel {
 	private String address;
 	private String tel;
 	private String domain;
-	private String school_id;
+	private String schoolId;
 
 	public String getName() {
 		return name;
@@ -43,12 +43,12 @@ public class SchoolInfoModel extends BaseModel {
 		this.domain = domain;
 	}
 
-	public String getSchool_id() {
-		return school_id;
+	public String getSchoolId() {
+		return schoolId;
 	}
 
-	public void setSchool_id(String school_id) {
-		this.school_id = school_id;
+	public void setSchoolId(String schoolId) {
+		this.schoolId = schoolId;
 	}
 
 }

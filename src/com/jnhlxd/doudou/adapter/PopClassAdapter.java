@@ -65,7 +65,7 @@ public class PopClassAdapter extends BaseAdapter {
 		} else {
 			hoder.mTvClassName.setBackgroundResource(R.drawable.student_not_sign_selector);
 		}
-		hoder.mTvClassName.setText(classInfoModel.getClass_name());
+		hoder.mTvClassName.setText(classInfoModel.getClassName());
 		return convertView;
 	}
 
