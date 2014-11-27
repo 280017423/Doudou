@@ -44,9 +44,10 @@ public class PunchReq {
 
 			Gson gson = new Gson();
 			String jsonString = gson.toJson(models);
+			EvtLog.d("aaa", "jsonString:" + jsonString);
 			String url = ServerAPIConstant.getUrl(ServerAPIConstant.API_SUBMIT_SIGN_INFO);
 			List<NameValuePair> postParams = new ArrayList<NameValuePair>();
-			postParams.add(new BasicNameValuePair(ServerAPIConstant.KEY_DATA, jsonString));
+			postParams.add(new BasicNameValuePair(ServerAPIConstant.KEY_SIGN_DATA, jsonString));
 			postParams.add(new BasicNameValuePair(ServerAPIConstant.KEY_APP, ServerAPIConstant.getAppSign()));
 			JsonResult jsonResult = HttpClientUtil.post(url, null, postParams);
 			if (jsonResult != null) {

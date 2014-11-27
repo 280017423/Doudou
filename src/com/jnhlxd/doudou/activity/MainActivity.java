@@ -74,7 +74,6 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 	private PopWindowUtil mDropPickPopUtil;
 	private TextView mTvChooseClass;
 	private TextView mTvDropPick;
-	private int mCurrentModel;
 	private ClassInfoModel mClassInfoModel;
 	private DropPickModel mDropPickModel;
 	private TextView mTvToastInfo;
@@ -164,6 +163,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		if (null != mClassInfoModels && !mClassInfoModels.isEmpty()) {
 			ClassInfoModel model = mClassInfoModels.get(0);
 			if (null != model) {
+				mClassInfoModel = model;
 				model.setCurrentModel(1);
 				mTvChooseClass.setText(model.getClassName());
 				mPopClassAdapter.notifyDataSetChanged();
@@ -233,12 +233,14 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				mDropPickPopUtil.dismiss();
 				mDropPickModel = (DropPickModel) parent.getAdapter().getItem(position);
 				if (null != mDropPickModel) {
-					mCurrentModel = mDropPickModel.getSignMode();
 					mTvDropPick.setText(mDropPickModel.getSignModeName());
 					DropPickModel.updateCurrentMode(mDropPickModel.getSignMode());
 					mDropPickModels.clear();
 					mDropPickModels.addAll(PunchMgr.getSignModules());
 					mPopDropPickAdapter.notifyDataSetChanged();
+					// 重置学生状态
+					mSelectModels.clear();
+					getStudents(mClassInfoModel.getClassId());
 				}
 			}
 		});
@@ -353,7 +355,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		int status = model.getSignModelStatus();
 		switch (status) {
 			case StudentModel.SIGN_TYPE_NOT_SIGN:
-				model.setSignMode(mCurrentModel);
+				model.setSignMode(mDropPickModel.getSignMode());
 				model.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNING);
 				mSelectModels.add(model);
 				break;
@@ -514,6 +516,6 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 			}
 		}
 		// 用来发送考勤数据
-		PunchMgr.savePunchModel2Db(punchNo, mCurrentModel);
+		PunchMgr.savePunchModel2Db(punchNo, mDropPickModel.getSignMode());
 	}
 }
