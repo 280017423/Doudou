@@ -99,12 +99,14 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+
         <service android:name="com.jnhlxd.doudou.service.PunchService" >
         </service>
 
         <receiver android:name="com.jnhlxd.doudou.service.PunchReceiver" >
         </receiver>
-         <service
+
+        <service
             android:name="com.umeng.update.net.DownloadingService"
             android:process=":DownloadingService" >
         </service>

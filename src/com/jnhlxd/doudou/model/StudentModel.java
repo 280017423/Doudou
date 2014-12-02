@@ -26,7 +26,7 @@ public class StudentModel extends BaseModel {
 	private String name;
 	private String signId;
 	@Transient
-	private int signModelStatus = SIGN_TYPE_NOT_SIGN;
+	private int signModelStatus = SIGN_TYPE_NOT_SIGN; // 指有没有存储到数据库
 	@Transient
 	private int signMode;
 
@@ -84,6 +84,11 @@ public class StudentModel extends BaseModel {
 
 	public void setSignMode(int signMode) {
 		this.signMode = signMode;
+	}
+
+	@Override
+	public String toString() {
+		return "StudentModel [name=" + name + ", signModelStatus=" + signModelStatus + ", signMode=" + signMode + "]";
 	}
 
 }

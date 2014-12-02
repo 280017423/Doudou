@@ -29,8 +29,16 @@ public class PunchMgr {
 	 * @Description 获取本地考勤数据
 	 * @return List<SignModel> 本地考勤数据
 	 */
-	public static List<SignModel> getLocalPunchInfo() {
-		return PunchDao.getHistoryData();
+	public static int getNoSendDataSize() {
+		return PunchDao.getNoSendDataSize();
+	}
+
+	/**
+	 * @Description 获取发送到服务器的本地考勤数据
+	 * @return List<SignModel> 本地考勤数据
+	 */
+	public static List<SignModel> getSendPunchInfo() {
+		return PunchDao.getSendData();
 	}
 
 	/**

@@ -54,7 +54,8 @@ public class PunchReq {
 				if (!jsonResult.isOK()) {
 					result.ResultObject = jsonResult.Msg;
 				} else {
-					PunchDao.deleteHistoryData(models);
+					// PunchDao.deleteHistoryData(models);
+					PunchDao.updateHistoryData(models);// 现在的逻辑是不删除了，直接更新状态
 				}
 				result.ResultCode = jsonResult.Code;
 			} else {

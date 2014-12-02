@@ -13,11 +13,16 @@ import com.qianjiang.framework.orm.BaseModel;
 public class SignModel extends BaseModel {
 
 	public static final String SIGN_ID = "SIGN_ID";
+	public static final String STATUS = "STATUS";
 	public static final String SIGN_TIME = "SIGN_TIME";
+	public static final String SIGN_MODE = "sign_Mode";
+	public static final int SIGN_STATUS_NO_SENDED = 0;
+	public static final int SIGN_STATUS_SENDED = 1;
 	private static final long serialVersionUID = 5119585879353786153L;
 	private String signId;
 	private String signTime;
 	private int signMode;
+	private int status; // 已发送和未发送到服务器
 
 	public String getSignId() {
 		return signId;
@@ -43,9 +48,12 @@ public class SignModel extends BaseModel {
 		this.signMode = signMode;
 	}
 
-	@Override
-	public String toString() {
-		return "PunchModel [SignId=" + signId + ", SignTime=" + signTime + "]";
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 }

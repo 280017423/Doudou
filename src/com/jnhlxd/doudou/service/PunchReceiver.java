@@ -37,7 +37,7 @@ public class PunchReceiver extends BroadcastReceiver {
 	public void onReceive(final Context context, Intent intent) {
 		if (NetUtil.isNetworkAvailable()) {
 			EvtLog.d(TAG, "当前网络是可用的");
-			final List<SignModel> models = PunchMgr.getLocalPunchInfo();
+			final List<SignModel> models = PunchMgr.getSendPunchInfo();
 			if (null == models || models.isEmpty()) {
 				EvtLog.d(TAG, "数据库没有记录了");
 			} else {

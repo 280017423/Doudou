@@ -127,15 +127,6 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		mEdtPunchNo.setOnKeyListener(this);
 	}
 
-	private void getStudents(String classId) {
-		List<StudentModel> models = StudentDao.getStudentModels(classId);
-		if (null != models) {
-			mStudentModels.clear();
-			mStudentModels.addAll(models);
-			mAdapter.notifyDataSetChanged();
-		}
-	}
-
 	private void initVariables() {
 		mDropPickModel = PunchDao.getCurrentModule();
 		mClassInfoModels = ClassDao.getClassInfoModels();
@@ -167,7 +158,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				model.setCurrentModel(1);
 				mTvChooseClass.setText(model.getClassName());
 				mPopClassAdapter.notifyDataSetChanged();
-				getStudents(model.getClassId());
+				getStudents(model.getClassId(), true);
 			}
 		}
 		mEdtPunchNo = (EditText) findViewById(R.id.edt_input_punch_no);
@@ -177,6 +168,36 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		imm.hideSoftInputFromWindow(mEdtPunchNo.getWindowToken(), 0);
 		mEdtPunchNo.setInputType(0);
 		mEdtPunchNo.requestFocus();
+	}
+
+	private void getStudents(String classId, boolean isRefreash) {
+		List<StudentModel> models = StudentDao.getStudentModels(classId);
+		int stuSize = models.size();
+		if (isRefreash) {
+			// 恢复状态的逻辑
+			List<SignModel> signModels = PunchDao.getRefreashData(mDropPickModel.getSignMode());
+			int size = signModels.size();
+			for (int i = 0; i < stuSize; i++) {
+				StudentModel studentModel = models.get(i);
+				for (int j = 0; j < size; j++) {
+					SignModel signModel = signModels.get(j);
+					if (studentModel.getSignId().equals(signModel.getSignId())) {
+						// 同步发送状态和签到类型
+						studentModel.setSignMode(signModel.getSignMode());
+						studentModel.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNED);
+					}
+				}
+			}
+		} else {
+			// 如果是切换了班级或者考勤模式，删除已经打卡成功的缓存数据
+			PunchDao.deleteHistoryData();
+		}
+		if (null != models) {
+			mStudentModels.clear();
+			mStudentModels.addAll(models);
+			mAdapter.notifyDataSetChanged();
+		}
+		refreash();
 	}
 
 	private void initClassPop() {
@@ -208,7 +229,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 						model.setCurrentModel(0);
 					}
 				}
-				getStudents(mClassInfoModel.getClassId());
+				getStudents(mClassInfoModel.getClassId(), false);
 				mPopClassAdapter.notifyDataSetChanged();
 				mTvChooseClass.setText(mClassInfoModel.getClassName());
 			}
@@ -240,7 +261,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 					mPopDropPickAdapter.notifyDataSetChanged();
 					// 重置学生状态
 					mSelectModels.clear();
-					getStudents(mClassInfoModel.getClassId());
+					getStudents(mClassInfoModel.getClassId(), false);
 				}
 			}
 		});
@@ -443,11 +464,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 	}
 
 	private void refreashToast() {
-		final List<SignModel> models = PunchMgr.getLocalPunchInfo();
-		if (null == models) {
-			return;
-		}
-		int size = models.size();
+		int size = PunchMgr.getNoSendDataSize();
 		String netInfo = "";
 		if (!NetUtil.isNetworkAvailable()) {
 			netInfo = getString(R.string.network_is_not_found);
