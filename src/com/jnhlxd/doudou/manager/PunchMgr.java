@@ -59,7 +59,7 @@ public class PunchMgr {
 		SignModel model = new SignModel();
 		model.setSignId(punchId);
 		model.setSignMode(signMode);
-		model.setSignTime(DateUtil.getSysDate(DateUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM));
+		model.setSignTime(DateUtil.getSysDate(DateUtil.DEFAULT_DATETIME_FORMAT));
 		DbDao.saveModel(model);
 	}
 
