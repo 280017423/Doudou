@@ -12,7 +12,7 @@ public class SchoolInfoModel extends BaseModel {
 	private String schoolId;
 
 	public String getName() {
-		return name;
+		return null == name ? "" : name;
 	}
 
 	public void setName(String name) {
@@ -20,7 +20,7 @@ public class SchoolInfoModel extends BaseModel {
 	}
 
 	public String getAddress() {
-		return address;
+		return null == address ? "" : address;
 	}
 
 	public void setAddress(String address) {

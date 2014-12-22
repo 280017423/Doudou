@@ -40,6 +40,7 @@ import com.jnhlxd.doudou.manager.PunchMgr;
 import com.jnhlxd.doudou.manager.UserMgr;
 import com.jnhlxd.doudou.model.ClassInfoModel;
 import com.jnhlxd.doudou.model.DropPickModel;
+import com.jnhlxd.doudou.model.SchoolInfoModel;
 import com.jnhlxd.doudou.model.SignModel;
 import com.jnhlxd.doudou.model.StudentModel;
 import com.jnhlxd.doudou.service.PunchService;
@@ -59,7 +60,6 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		OnItemLongClickListener {
 	private static final String TAG = "MainActivity";
 	private static final int DIALOG_EXIT_APP = 0;
-	private static final int DISPLAY_TIME = 2000;
 	private Button mBtnManualSign;
 	private GridView mGvStudent;
 	private List<StudentModel> mStudentModels;
@@ -70,6 +70,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 	private PopDropPickAdapter mPopDropPickAdapter;
 	private PopClassAdapter mPopClassAdapter;
 	private PunchService mService;
+	private PopWindowUtil mSignPopUtil;
 	private PopWindowUtil mChooseClassPopUtil;
 	private PopWindowUtil mDropPickPopUtil;
 	private TextView mTvChooseClass;
@@ -263,8 +264,13 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 	}
 
 	private void initTitle() {
+		SchoolInfoModel model = UserMgr.getSchoolInfoModel();
 		TextView tvTitle = (TextView) findViewById(R.id.title_with_back_title_btn_mid);
-		tvTitle.setText("宝贝幼儿园");
+		tvTitle.setText(model.getName());
+		TextView tvRight = (TextView) findViewById(R.id.tv_title_with_right);
+		tvRight.setBackgroundResource(R.drawable.tongyong_button_bg);
+		findViewById(R.id.title_with_back_title_btn_right).setOnClickListener(this);
+		tvRight.setText(R.string.about);
 	}
 
 	@Override
@@ -306,6 +312,9 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 	public void onClick(View v) {
 		int id = v.getId();
 		switch (id) {
+			case R.id.title_with_back_title_btn_right:
+				startActivity(new Intent(MainActivity.this, AboutActivity.class));
+				break;
 			case R.id.btn_manual_sign:
 				submitSignInfo();
 				break;
@@ -496,7 +505,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
 
 		if (KeyEvent.KEYCODE_ENTER == keyCode && KeyEvent.ACTION_DOWN == event.getAction()) {
-			doActionAgain(TAG, DISPLAY_TIME, new ActionListener() {
+			doActionAgain(TAG, new ActionListener() {
 
 				@Override
 				public void doAction() {
@@ -523,11 +532,38 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 					mSelectModels.remove(model);
 					refreash();
 					mAdapter.notifyDataSetChanged();
+					// 用来弹窗
+					initSignPop(model);
 					break;
 				}
 			}
 		}
 		// 用来发送考勤数据
 		PunchMgr.savePunchModel2Db(punchNo, mDropPickModel.getSignMode());
+	}
+
+	private void initSignPop(StudentModel model) {
+		View contentView = null;
+		if (null == contentView) {
+			contentView = View.inflate(this, R.layout.view_pop_sign, null);
+		}
+		contentView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mSignPopUtil.dismiss();
+			}
+		});
+		mSignPopUtil = new PopWindowUtil(contentView, null);
+		TextView tvClass = (TextView) contentView.findViewById(R.id.tv_student_class);
+		TextView tvName = (TextView) contentView.findViewById(R.id.tv_student_name);
+		ImageView ivIcon = (ImageView) contentView.findViewById(R.id.iv_student_icon);
+		tvClass.setText(mClassInfoModel.getClassName());
+		tvName.setText(model.getName());
+		String imgUrl = model.getHeadIcon();
+		if (!StringUtil.isNullOrEmpty(imgUrl)) {
+			mImageLoader.displayImage(imgUrl, ivIcon, mOptions);
+		}
+		mSignPopUtil.showAndDismiss();
 	}
 }

@@ -12,7 +12,9 @@ import com.jnhlxd.doudou.listener.IDialogProtocol;
 import com.jnhlxd.doudou.util.DialogManager;
 import com.jnhlxd.doudou.widget.CustomDialog.Builder;
 import com.qianjiang.framework.app.QJActivityBase;
+import com.qianjiang.framework.imageloader.core.DisplayImageOptions;
 import com.qianjiang.framework.imageloader.core.ImageLoader;
+import com.qianjiang.framework.imageloader.core.display.SimpleBitmapDisplayer;
 import com.qianjiang.framework.util.QJActivityManager;
 import com.qianjiang.framework.widget.LoadingUpView;
 import com.umeng.analytics.MobclickAgent;
@@ -24,6 +26,8 @@ import com.umeng.analytics.MobclickAgent;
  */
 public class ActivityBase extends QJActivityBase implements IDialogProtocol {
 	protected ImageLoader mImageLoader = ImageLoader.getInstance();
+	protected DisplayImageOptions mOptions = new DisplayImageOptions.Builder().cacheInMemory().cacheOnDisc()
+			.displayer(new SimpleBitmapDisplayer()).build();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
