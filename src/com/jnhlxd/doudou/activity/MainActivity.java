@@ -62,7 +62,8 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 	private static final int DIALOG_EXIT_APP = 0;
 	private Button mBtnManualSign;
 	private GridView mGvStudent;
-	private List<StudentModel> mStudentModels;
+	private List<StudentModel> mAllStudentModels; // 全校所有学生
+	private List<StudentModel> mStudentModels; // 当前班级学生
 	private List<StudentModel> mSelectModels;
 	private List<DropPickModel> mDropPickModels;
 	private List<ClassInfoModel> mClassInfoModels;
@@ -137,6 +138,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		mDropPickModels = PunchMgr.getSignModules();
 		mPopDropPickAdapter = new PopDropPickAdapter(this, mDropPickModels);
 		mPopClassAdapter = new PopClassAdapter(this, mClassInfoModels);
+		mAllStudentModels = StudentDao.getAllStudentModels();
 	}
 
 	private void initView() {
@@ -511,6 +513,8 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				public void doAction() {
 					final String punchNo = mEdtPunchNo.getText().toString();
 					sendData(punchNo);
+					// 用来弹窗
+					initSignPop(punchNo);
 				}
 			});
 			mEdtPunchNo.setText("");
@@ -532,8 +536,6 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 					mSelectModels.remove(model);
 					refreash();
 					mAdapter.notifyDataSetChanged();
-					// 用来弹窗
-					initSignPop(model);
 					break;
 				}
 			}
@@ -542,7 +544,21 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		PunchMgr.savePunchModel2Db(punchNo, mDropPickModel.getSignMode());
 	}
 
-	private void initSignPop(StudentModel model) {
+	private void initSignPop(String punchNo) {
+		if (StringUtil.isNullOrEmpty(punchNo)) {
+			return;
+		}
+		StudentModel studentModel = new StudentModel();
+		if (null != mAllStudentModels && !mAllStudentModels.isEmpty()) {
+			int size = mAllStudentModels.size();
+			for (int i = 0; i < size; i++) {
+				StudentModel model = mAllStudentModels.get(i);
+				if (punchNo.equals(model.getSignId())) {
+					studentModel = model;
+					break;
+				}
+			}
+		}
 		View contentView = null;
 		if (null == contentView) {
 			contentView = View.inflate(this, R.layout.view_pop_sign, null);
@@ -558,9 +574,27 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		TextView tvClass = (TextView) contentView.findViewById(R.id.tv_student_class);
 		TextView tvName = (TextView) contentView.findViewById(R.id.tv_student_name);
 		ImageView ivIcon = (ImageView) contentView.findViewById(R.id.iv_student_icon);
-		tvClass.setText(mClassInfoModel.getClassName());
-		tvName.setText(model.getName());
-		String imgUrl = model.getHeadIcon();
+		String name = studentModel.getName();
+		String classId = studentModel.getClassId();
+		if (StringUtil.isNullOrEmpty(classId)) {
+			tvClass.setVisibility(View.GONE);
+		} else {
+			if (null != mClassInfoModels) {
+				for (int i = 0; i < mClassInfoModels.size(); i++) {
+					if (classId.equals(mClassInfoModels.get(i).getClassId())) {
+						tvClass.setVisibility(View.VISIBLE);
+						tvClass.setText(mClassInfoModels.get(i).getClassName());
+						break;
+					}
+				}
+			}
+		}
+		if (StringUtil.isNullOrEmpty(name)) {
+			tvName.setText("无效卡");
+		} else {
+			tvName.setText(name);
+		}
+		String imgUrl = studentModel.getHeadIcon();
 		if (!StringUtil.isNullOrEmpty(imgUrl)) {
 			mImageLoader.displayImage(imgUrl, ivIcon, mOptions);
 		}

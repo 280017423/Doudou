@@ -63,4 +63,21 @@ public class StudentDao {
 		}
 		return models;
 	}
+
+	/**
+	 * 获取全校学生信息
+	 * 
+	 * @return List<StudentModel> 学生信息列表
+	 */
+	public static List<StudentModel> getAllStudentModels() {
+		List<StudentModel> models = new ArrayList<StudentModel>();
+		DataManager dataManager = DBUtil.getDataManager();
+		try {
+			// 刻意使用一个局部变量作为承载，若返回空，catch，并直接返回空列表，杜绝外部空的可能
+			List<StudentModel> studentModels = dataManager.getList(StudentModel.class, null, null);
+			models.addAll(studentModels);
+		} catch (Exception e) {
+		}
+		return models;
+	}
 }
