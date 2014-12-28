@@ -47,6 +47,7 @@ import com.jnhlxd.doudou.service.PunchService;
 import com.jnhlxd.doudou.service.PunchService.PunchBinder;
 import com.jnhlxd.doudou.util.ConstantSet;
 import com.jnhlxd.doudou.util.PopWindowUtil;
+import com.jnhlxd.doudou.util.SoundUtil;
 import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.NetUtil;
 import com.qianjiang.framework.util.StringUtil;
@@ -335,6 +336,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				casualLeaveModel.setSignMode(DropPickModel.SIGN_TYPE_CASUAL_LEAVE);
 				casualLeaveModel.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNING);
 				mSelectModels.add(casualLeaveModel);
+				initSignPop(casualLeaveModel.getSignId());
 				refreash();
 				mAdapter.notifyDataSetChanged();
 				break;
@@ -347,6 +349,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				sickLeaveModel.setSignMode(DropPickModel.SIGN_TYPE_SICK_LEAVE);
 				sickLeaveModel.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNING);
 				mSelectModels.add(sickLeaveModel);
+				initSignPop(sickLeaveModel.getSignId());
 				refreash();
 				mAdapter.notifyDataSetChanged();
 				break;
@@ -385,6 +388,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				model.setSignMode(mDropPickModel.getSignMode());
 				model.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNING);
 				mSelectModels.add(model);
+				initSignPop(model.getSignId());
 				break;
 			case StudentModel.SIGN_TYPE_SIGNING:
 				model.setSignMode(0);
@@ -599,5 +603,6 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 			mImageLoader.displayImage(imgUrl, ivIcon, mOptions);
 		}
 		mSignPopUtil.showAndDismiss();
+		SoundUtil.playSounds(MainActivity.this);
 	}
 }
