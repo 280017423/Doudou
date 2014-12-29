@@ -45,7 +45,8 @@ public class ViewAnimUtil implements AnimationListener, OnTouchListener {
 	private void createAnimLayout() {
 		ViewGroup rootView = (ViewGroup) mActivity.getWindow().getDecorView();
 		mAnimLayout = new LinearLayout(mActivity);
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		mAnimLayout.setLayoutParams(lp);
 		mAnimLayout.setBackgroundResource(android.R.color.transparent);
 		mAnimLayout.setVisibility(View.GONE);

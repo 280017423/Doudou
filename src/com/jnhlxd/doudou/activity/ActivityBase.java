@@ -108,7 +108,7 @@ public class ActivityBase extends QJActivityBase implements IDialogProtocol {
 
 	}
 
-	protected boolean showLoadingUpView(LoadingUpView loadingUpView) {
+	protected static boolean showLoadingUpView(LoadingUpView loadingUpView) {
 		if (loadingUpView != null && !loadingUpView.isShowing()) {
 			loadingUpView.showPopup();
 			return true;
@@ -116,7 +116,7 @@ public class ActivityBase extends QJActivityBase implements IDialogProtocol {
 		return false;
 	}
 
-	protected boolean dismissLoadingUpView(LoadingUpView loadingUpView) {
+	protected static boolean dismissLoadingUpView(LoadingUpView loadingUpView) {
 		if (loadingUpView != null && loadingUpView.isShowing()) {
 			loadingUpView.dismiss();
 			return true;

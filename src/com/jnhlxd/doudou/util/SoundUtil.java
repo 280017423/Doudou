@@ -1,7 +1,5 @@
 package com.jnhlxd.doudou.util;
 
-import java.util.HashMap;
-
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;

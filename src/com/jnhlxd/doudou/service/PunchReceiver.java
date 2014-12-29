@@ -34,6 +34,7 @@ public class PunchReceiver extends BroadcastReceiver {
 	 * @param intent
 	 *            数据传输intent
 	 */
+	@Override
 	public void onReceive(final Context context, Intent intent) {
 		if (NetUtil.isNetworkAvailable()) {
 			EvtLog.d(TAG, "当前网络是可用的");
@@ -69,7 +70,7 @@ public class PunchReceiver extends BroadcastReceiver {
 	 * @param data
 	 *            广播发送的数据
 	 */
-	public void sendBroadCastV(Context context, String action, String data) {
+	public static void sendBroadCastV(Context context, String action, String data) {
 		Intent intent = new Intent();
 		intent.setAction(action);
 		intent.putExtra("data", data);
