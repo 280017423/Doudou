@@ -18,6 +18,7 @@ import com.jnhlxd.doudou.model.UserInfoModel;
 import com.jnhlxd.doudou.req.UserReq;
 import com.jnhlxd.doudou.util.ConstantSet;
 import com.jnhlxd.doudou.util.SharedPreferenceUtil;
+import com.jnhlxd.doudou.util.TtsUtil;
 import com.qianjiang.framework.authentication.BaseLoginProcessor;
 import com.qianjiang.framework.authentication.BaseLoginProcessor.LOGIN_TYPE;
 import com.qianjiang.framework.util.ImeUtil;
@@ -37,6 +38,7 @@ import com.umeng.update.UpdateConfig;
 public class LoginActivity extends ActivityBase implements OnClickListener {
 	private static final int DIALOG_EXIT_APP = 0;
 	private static final int DELAY_TIME = 500;
+	private static final int DIALOG_INSTALL_SPEECH_SERVICE = 2;
 	private static final String TAG = "LoginActivity";
 	private boolean mIsLogining;
 	private LOGIN_TYPE mLoginType;
@@ -58,6 +60,9 @@ public class LoginActivity extends ActivityBase implements OnClickListener {
 		UpdateConfig.setDebug(false);
 		initVariable();
 		initView();
+		if (!TtsUtil.isSpeechServiceInstalled(this)) {
+			showDialog(DIALOG_INSTALL_SPEECH_SERVICE);
+		}
 	}
 
 	private void initVariable() {
@@ -177,6 +182,10 @@ public class LoginActivity extends ActivityBase implements OnClickListener {
 				return createDialogBuilder(this, getString(R.string.button_text_tips),
 						getString(R.string.exit_dialog_title), getString(R.string.button_text_no),
 						getString(R.string.button_text_yes)).create(id);
+			case DIALOG_INSTALL_SPEECH_SERVICE:
+				return createDialogBuilder(this, getString(R.string.button_text_tips),
+						getString(R.string.msg_install_speech_service), getString(R.string.btn_txt_no),
+						getString(R.string.btn_txt_yes)).create(id);
 			default:
 				break;
 		}
@@ -186,6 +195,11 @@ public class LoginActivity extends ActivityBase implements OnClickListener {
 	@Override
 	public void onNegativeBtnClick(int id, DialogInterface dialog, int which) {
 		if (DIALOG_EXIT_APP == id) {
+			finish();
+		} else if (DIALOG_INSTALL_SPEECH_SERVICE == id) {
+			String assetsApk = "SpeechService.apk";
+			TtsUtil.processInstall(this, assetsApk);
+			dialog.dismiss();
 			finish();
 		}
 		super.onNegativeBtnClick(id, dialog, which);

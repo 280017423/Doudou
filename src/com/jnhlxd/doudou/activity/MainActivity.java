@@ -47,7 +47,7 @@ import com.jnhlxd.doudou.service.PunchService;
 import com.jnhlxd.doudou.service.PunchService.PunchBinder;
 import com.jnhlxd.doudou.util.ConstantSet;
 import com.jnhlxd.doudou.util.PopWindowUtil;
-import com.jnhlxd.doudou.util.SoundUtil;
+import com.jnhlxd.doudou.util.TtsUtil;
 import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.NetUtil;
 import com.qianjiang.framework.util.StringUtil;
@@ -82,6 +82,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 	private TextView mTvToastInfo;
 	private EditText mEdtPunchNo;
 	private PopupWindow mPopupWindow;
+	private TtsUtil mTtsUtil;
 
 	private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -131,6 +132,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 	}
 
 	private void initVariables() {
+		mTtsUtil = new TtsUtil(this);
 		mDropPickModel = PunchDao.getCurrentModule();
 		mClassInfoModels = ClassDao.getClassInfoModels();
 		mStudentModels = new ArrayList<StudentModel>();
@@ -580,6 +582,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		ImageView ivIcon = (ImageView) contentView.findViewById(R.id.iv_student_icon);
 		String name = studentModel.getName();
 		String classId = studentModel.getClassId();
+		String className = "";
 		if (StringUtil.isNullOrEmpty(classId)) {
 			tvClass.setVisibility(View.GONE);
 		} else {
@@ -587,7 +590,8 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				for (int i = 0; i < mClassInfoModels.size(); i++) {
 					if (classId.equals(mClassInfoModels.get(i).getClassId())) {
 						tvClass.setVisibility(View.VISIBLE);
-						tvClass.setText(mClassInfoModels.get(i).getClassName());
+						className = mClassInfoModels.get(i).getClassName();
+						tvClass.setText(className);
 						break;
 					}
 				}
@@ -603,6 +607,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 			mImageLoader.displayImage(imgUrl, ivIcon, mOptions);
 		}
 		mSignPopUtil.showAndDismiss();
-		SoundUtil.playSounds(MainActivity.this);
+		mTtsUtil.startSpeak(className + name + "已" + mDropPickModel.getSignModeName());
+		// SoundUtil.playSounds(MainActivity.this);
 	}
 }
