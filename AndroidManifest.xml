@@ -78,7 +78,17 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".activity.StudentActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".activity.LoginActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.ClipPictureActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>

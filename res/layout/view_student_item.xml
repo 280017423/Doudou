@@ -27,4 +27,17 @@
         android:textSize="@dimen/size_4"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/tv_head_icon"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/message_count_bg"
+        android:gravity="center"
+        android:text="P"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size_4"
+        android:textStyle="bold" />
+
 </RelativeLayout>

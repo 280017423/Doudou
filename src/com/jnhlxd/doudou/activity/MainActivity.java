@@ -61,6 +61,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		OnItemLongClickListener {
 	private static final String TAG = "MainActivity";
 	private static final int DIALOG_EXIT_APP = 0;
+	private static final int REQUEST_CODE_TAKEPHOTO = 100;
 	private Button mBtnManualSign;
 	private GridView mGvStudent;
 	private List<StudentModel> mAllStudentModels; // 全校所有学生
@@ -329,6 +330,15 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 			case R.id.ll_drop_pick_mode:
 				mDropPickPopUtil.show();
 				break;
+			case R.id.tv_take_phote:
+				dismissPopupwindow();
+				StudentModel studentModel = (StudentModel) v.getTag();
+				if (null != studentModel) {
+					Intent intent = new Intent(MainActivity.this, StudentActivity.class);
+					intent.putExtra(ConstantSet.KEY_STUDENT_MODEL, studentModel);
+					startActivityForResult(intent, REQUEST_CODE_TAKEPHOTO);
+				}
+				break;
 			case R.id.tv_casual_leave:
 				dismissPopupwindow();
 				StudentModel casualLeaveModel = (StudentModel) v.getTag();
@@ -359,6 +369,12 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 			default:
 				break;
 		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	private void submitSignInfo() {
@@ -415,27 +431,27 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 	}
 
 	private void showPopupWindow(View relativeView, StudentModel model) {
-		// 懒加载
-		if (mPopupWindow == null) {
-			View contentView = View.inflate(this, R.layout.send_msg_popwindow_layout, null);
-			mPopupWindow = new PopupWindow(contentView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
-			mPopupWindow.setTouchable(true);
-			mPopupWindow.setOutsideTouchable(true);
-			ColorDrawable dw = new ColorDrawable(0x00);
-			mPopupWindow.setBackgroundDrawable(dw);
-		}
-		View contentView = mPopupWindow.getContentView();
+		View contentView = View.inflate(this, R.layout.send_msg_popwindow_layout, null);
+		mPopupWindow = new PopupWindow(contentView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+		mPopupWindow.setTouchable(true);
+		mPopupWindow.setOutsideTouchable(true);
+		ColorDrawable dw = new ColorDrawable(0x00);
+		mPopupWindow.setBackgroundDrawable(dw);
+
 		TextView tvCasualLeave = (TextView) contentView.findViewById(R.id.tv_casual_leave);
 		TextView tvSickLeave = (TextView) contentView.findViewById(R.id.tv_sick_leave);
+		TextView tvTakephoto = (TextView) contentView.findViewById(R.id.tv_take_phote);
 		ImageView ivArrowUp = (ImageView) contentView.findViewById(R.id.iv_arrow_up);
 		ImageView ivArrowDown = (ImageView) contentView.findViewById(R.id.iv_arrow_down);
-		// 事件监听优化,如果没有TAG，说明是第一次进入，需要设置
-		if (tvCasualLeave != null && tvCasualLeave.getTag() == null) {
-			tvCasualLeave.setOnClickListener(this);
+		if (StringUtil.isNullOrEmpty(model.getHeadIcon())) {
+			tvTakephoto.setTag(model);
+			tvTakephoto.setVisibility(View.VISIBLE);
+		} else {
+			tvTakephoto.setVisibility(View.GONE);
 		}
-		if (tvSickLeave != null && tvSickLeave.getTag() == null) {
-			tvSickLeave.setOnClickListener(this);
-		}
+		tvCasualLeave.setOnClickListener(this);
+		tvSickLeave.setOnClickListener(this);
+		tvTakephoto.setOnClickListener(this);
 		tvCasualLeave.setTag(model);
 		tvSickLeave.setTag(model);
 

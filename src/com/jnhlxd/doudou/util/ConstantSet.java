@@ -17,6 +17,7 @@ public class ConstantSet {
 	public static final String KEY_APPLICATION_CONFIG_FILE = "KEY_APPLICATION_GUIDING_FILE";
 	public static final String KEY_NEWER_GUIDING_FINISH = "KEY_NEWER_GUIDING_FINISH";
 	public static final String KEY_IS_REMEMBER_ME = "KEY_IS_REMEMBER_ME";
+	public static final String KEY_STUDENT_MODEL = "KEY_STUDENT_MODEL";
 	// 用户配置信息（退出登录时要清除的）
 	public static final String KEY_FILE_DOUDOU_CONFIG_FILE = "FILE_DOUDOU_CONFIG";
 }

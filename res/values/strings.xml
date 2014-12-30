@@ -19,6 +19,9 @@
     <string name="left_student_count">还有<xliff:g>%1$s</xliff:g>条记录未提交</string>
     <string name="tv_casual_leave">事假</string>
     <string name="tv_sick_leave">病假</string>
+    <string name="tv_take_photo">拍照</string>
+    <string name="upload_head_icon">上传头像</string>
+    <string name="cut_head_icon">头像裁剪</string>
 
     <!-- 登录 -->
     <string name="button_text_login">登录</string>
@@ -34,5 +37,10 @@
     <string name="msg_install_speech_service">是否安装语音提示服务？</string>
     <string name="btn_txt_no">否</string>
     <string name="btn_txt_yes">是</string>
+    <string name="user_image_no_browser">未找到图片浏览器</string>
+    <string name="user_image_not_support">您的设备不支持拍照功能</string>
+    <string name="user_image_no_sdcard">未找到SD卡，无法存储照片</string>
+    <string name="user_image_load_fail">图片加载失败</string>
+    <string name="center_no_find_file">文件没有发现</string>
 
 </resources>

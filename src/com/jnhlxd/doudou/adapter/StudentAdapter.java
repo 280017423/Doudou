@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.jnhlxd.doudou.R;
 import com.jnhlxd.doudou.model.DropPickModel;
 import com.jnhlxd.doudou.model.StudentModel;
+import com.qianjiang.framework.util.StringUtil;
 
 /**
  * 
@@ -66,12 +67,18 @@ public class StudentAdapter extends BaseAdapter {
 			convertView = View.inflate(mActivity, R.layout.view_student_item, null);
 			holder.mTvName = (TextView) convertView.findViewById(R.id.tv_student_name);
 			holder.mTvSignStatus = (TextView) convertView.findViewById(R.id.tv_sign_status);
+			holder.mTvIcon = (TextView) convertView.findViewById(R.id.tv_head_icon);
 			convertView.setTag(holder);
 		} else {
 			holder = (Holder) convertView.getTag();
 		}
 		StudentModel model = mDataList.get(position);
 		if (null != model) {
+			if (StringUtil.isNullOrEmpty(model.getHeadIcon())) {
+				holder.mTvIcon.setVisibility(View.GONE);
+			} else {
+				holder.mTvIcon.setVisibility(View.VISIBLE);
+			}
 			holder.mTvName.setText(model.getName());
 			int status = model.getSignModelStatus();
 			switch (status) {
@@ -84,6 +91,7 @@ public class StudentAdapter extends BaseAdapter {
 					holder.mTvName.setBackgroundResource(R.drawable.student_signing_selector);
 					holder.mTvName.setTextColor(Color.WHITE);
 					holder.mTvSignStatus.setVisibility(View.GONE);
+					holder.mTvIcon.setBackgroundResource(R.drawable.sign_status_bg);
 					break;
 				case StudentModel.SIGN_TYPE_SIGNED:
 					holder.mTvName.setBackgroundResource(R.drawable.student_signed_selector);
@@ -110,5 +118,6 @@ public class StudentAdapter extends BaseAdapter {
 	class Holder {
 		private TextView mTvName;
 		private TextView mTvSignStatus;
+		private TextView mTvIcon;
 	}
 }

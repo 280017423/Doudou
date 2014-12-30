@@ -1,5 +1,6 @@
 package com.jnhlxd.doudou.util;
 
+import android.R.integer;
 import android.graphics.drawable.ColorDrawable;
 import android.os.CountDownTimer;
 import android.view.Gravity;
@@ -83,11 +84,18 @@ public class PopWindowUtil {
 	 * 显示Pop
 	 */
 	public void show() {
+		show(Gravity.CENTER);
+	}
+
+	/**
+	 * 显示Pop
+	 */
+	public void show(int gravity) {
 		if (null == mPopupWindow) {
 			return;
 		}
 		if (!mPopupWindow.isShowing()) {
-			mPopupWindow.showAtLocation(mMenuView, Gravity.CENTER, 0, 0);
+			mPopupWindow.showAtLocation(mMenuView, gravity, 0, 0);
 		}
 	}
 

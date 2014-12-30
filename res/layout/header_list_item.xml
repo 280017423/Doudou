@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#AA000000" >
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/pop_list_selector"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size_3" />
+
+    <TextView
+        android:id="@+id/tv_take_photo"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_above="@id/tv_cancel"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/pop_list_selector"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="拍照"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size_3" />
+
+    <TextView
+        android:id="@+id/tv_choose_photo"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_above="@id/tv_take_photo"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/pop_list_selector"
+        android:gravity="center"
+        android:text="本地照片"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size_3" />
+
+</RelativeLayout>

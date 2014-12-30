@@ -47,7 +47,7 @@ public class StudentModel extends BaseModel {
 	}
 
 	public String getHeadIcon() {
-		return headIcon;
+		return null == headIcon ? "" : headIcon;
 	}
 
 	public void setHeadIcon(String headIcon) {

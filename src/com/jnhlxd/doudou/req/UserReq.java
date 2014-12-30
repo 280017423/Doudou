@@ -1,5 +1,6 @@
 package com.jnhlxd.doudou.req;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,4 +104,43 @@ public class UserReq {
 		}
 		return result;
 	}
+
+	/**
+	 * 上传头像
+	 * 
+	 * @param userAccount
+	 *            用户账号
+	 * @param file
+	 *            文件
+	 * @return 服务器返回结果
+	 * 
+	 */
+	public static ActionResult uploadHeadImage(File file) {
+
+		ActionResult result = new ActionResult();
+		ArrayList<File> list = new ArrayList<File>();
+		list.add(file);
+		String url = ServerAPIConstant.getUrl("---------");
+		List<NameValuePair> postParams = new ArrayList<NameValuePair>();
+		JsonResult jsonResult;
+		try {
+			jsonResult = HttpClientUtil.post(url, null, postParams, list);
+			if (jsonResult != null) {
+				if (jsonResult.isOK()) {
+					String headurl = jsonResult.getDataString("=============");
+					result.ResultCode = jsonResult.Code;
+					result.ResultObject = headurl;
+				} else {
+					result.ResultCode = jsonResult.Code;
+					result.ResultObject = jsonResult.Data;
+				}
+			} else {
+				result.ResultCode = ActionResult.RESULT_CODE_NET_ERROR;
+			}
+		} catch (Exception e) {
+			result.ResultCode = ActionResult.RESULT_CODE_NET_ERROR;
+		}
+		return result;
+	}
+
 }
