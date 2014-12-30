@@ -518,9 +518,10 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				@Override
 				public void doAction() {
 					final String punchNo = mEdtPunchNo.getText().toString();
-					sendData(punchNo);
-					// 用来弹窗
-					initSignPop(punchNo);
+					if (!initSignPop(punchNo)) {
+						// 不是无效卡才保存数据
+						sendData(punchNo);
+					}
 				}
 			});
 			mEdtPunchNo.setText("");
@@ -550,9 +551,10 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		PunchMgr.savePunchModel2Db(punchNo, mDropPickModel.getSignMode());
 	}
 
-	private void initSignPop(String punchNo) {
+	private boolean initSignPop(String punchNo) {
+		boolean isInvalid = false;
 		if (StringUtil.isNullOrEmpty(punchNo)) {
-			return;
+			return true;
 		}
 		StudentModel studentModel = new StudentModel();
 		if (null != mAllStudentModels && !mAllStudentModels.isEmpty()) {
@@ -599,15 +601,17 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		}
 		if (StringUtil.isNullOrEmpty(name)) {
 			tvName.setText("无效卡");
+			mTtsUtil.startSpeak("无效卡");
+			isInvalid = true;
 		} else {
 			tvName.setText(name);
+			mTtsUtil.startSpeak(className + name + "已" + mDropPickModel.getSignModeName());
 		}
 		String imgUrl = studentModel.getHeadIcon();
 		if (!StringUtil.isNullOrEmpty(imgUrl)) {
 			mImageLoader.displayImage(imgUrl, ivIcon, mOptions);
 		}
 		mSignPopUtil.showAndDismiss();
-		mTtsUtil.startSpeak(className + name + "已" + mDropPickModel.getSignModeName());
-		// SoundUtil.playSounds(MainActivity.this);
+		return isInvalid;
 	}
 }
