@@ -20,4 +20,7 @@ public class ConstantSet {
 	public static final String KEY_STUDENT_MODEL = "KEY_STUDENT_MODEL";
 	// 用户配置信息（退出登录时要清除的）
 	public static final String KEY_FILE_DOUDOU_CONFIG_FILE = "FILE_DOUDOU_CONFIG";
+	public static final String EXTRA_IMAGE_LIST = "imagelist";
+	public static final String EXTRA_BUCKET_NAME = "BUCKET_NAME";
+	public static final String EXTRA_IMAGE_ITEM_MODEL = "EXTRA_IMAGE_ITEM_MODEL";
 }

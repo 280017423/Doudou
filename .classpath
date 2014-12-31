@@ -6,5 +6,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="libs/SpeechApi.jar"/>
+	<classpathentry kind="lib" path="libs/bugly_1.0.4_release.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

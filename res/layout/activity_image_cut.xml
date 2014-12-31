@@ -5,7 +5,7 @@
 
     <include
         android:id="@+id/layout_title"
-        layout="@layout/title_with_back_btn_wrap" />
+        layout="@layout/view_title_layout" />
 
     <ImageView
         android:id="@+id/src_pic"

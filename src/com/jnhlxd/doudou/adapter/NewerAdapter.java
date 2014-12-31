@@ -81,7 +81,7 @@ public class NewerAdapter extends PagerAdapter {
 	public Object instantiateItem(View viewPager, int position) {
 
 		final Item mItem = new Item();
-		View itemView = View.inflate(mContext, R.layout.newer_guiding_item, null);
+		View itemView = View.inflate(mContext, R.layout.view_newer_guiding_item, null);
 		mItem.mBtnJump = (Button) itemView.findViewById(R.id.btn_jump_to_main);
 		if (mImages.length > 0) {
 			FrameLayout.LayoutParams params = (LayoutParams) mItem.mBtnJump.getLayoutParams();

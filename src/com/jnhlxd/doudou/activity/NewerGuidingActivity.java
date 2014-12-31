@@ -26,7 +26,7 @@ public class NewerGuidingActivity extends ActivityBase {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.newer_guiding);
+		setContentView(R.layout.activity_newer_guiding);
 		initVariables();
 		findView();
 	}

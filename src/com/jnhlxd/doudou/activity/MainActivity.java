@@ -48,9 +48,11 @@ import com.jnhlxd.doudou.service.PunchService.PunchBinder;
 import com.jnhlxd.doudou.util.ConstantSet;
 import com.jnhlxd.doudou.util.PopWindowUtil;
 import com.jnhlxd.doudou.util.TtsUtil;
+import com.jnhlxd.doudou.widget.RoundImageView;
 import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.NetUtil;
 import com.qianjiang.framework.util.StringUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 
 /**
  * 应用主界面
@@ -123,6 +125,8 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		initView();
 		setListener();
 		bindPunchService();
+		// 报告用户名字
+		CrashReport.setUserId(UserMgr.getUserInfoModel().getName());
 	}
 
 	private void setListener() {
@@ -431,7 +435,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 	}
 
 	private void showPopupWindow(View relativeView, StudentModel model) {
-		View contentView = View.inflate(this, R.layout.send_msg_popwindow_layout, null);
+		View contentView = View.inflate(this, R.layout.view_student_pop_layout, null);
 		mPopupWindow = new PopupWindow(contentView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
 		mPopupWindow.setTouchable(true);
 		mPopupWindow.setOutsideTouchable(true);
@@ -597,7 +601,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		mSignPopUtil = new PopWindowUtil(contentView, null);
 		TextView tvClass = (TextView) contentView.findViewById(R.id.tv_student_class);
 		TextView tvName = (TextView) contentView.findViewById(R.id.tv_student_name);
-		ImageView ivIcon = (ImageView) contentView.findViewById(R.id.iv_student_icon);
+		RoundImageView ivIcon = (RoundImageView) contentView.findViewById(R.id.iv_student_icon);
 		String name = studentModel.getName();
 		String classId = studentModel.getClassId();
 		String className = "";

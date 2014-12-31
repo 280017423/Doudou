@@ -13,7 +13,6 @@ import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,6 +27,7 @@ import com.jnhlxd.doudou.req.UserReq;
 import com.jnhlxd.doudou.util.ConstantSet;
 import com.jnhlxd.doudou.util.ImageUtil;
 import com.jnhlxd.doudou.util.PopWindowUtil;
+import com.jnhlxd.doudou.widget.RoundImageView;
 import com.qianjiang.framework.util.FileUtil;
 import com.qianjiang.framework.util.StringUtil;
 
@@ -42,7 +42,7 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 	private StudentModel mStudentModel;
 	private TextView mTvClassName;
 	private TextView mTvStudentName;
-	private ImageView mIvIcon;
+	private RoundImageView mIvIcon;
 	private List<ClassInfoModel> mClassInfoModels;
 	private PopWindowUtil mPopWindowUtil;
 	public static String TEMP_PHONE_FILENAME = "";
@@ -77,7 +77,7 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 		mTvBack.setText(R.string.title_back_text);
 		mTvBack.setBackgroundResource(R.drawable.btn_back_bg);
 
-		mIvIcon = (ImageView) findViewById(R.id.iv_student_icon);
+		mIvIcon = (RoundImageView) findViewById(R.id.iv_student_icon);
 		mTvClassName = (TextView) findViewById(R.id.tv_student_class);
 		mTvStudentName = (TextView) findViewById(R.id.tv_student_name);
 		mTvStudentName.setText(mStudentModel.getName());
@@ -130,14 +130,8 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 				break;
 			case R.id.tv_choose_photo:
 				mPopWindowUtil.dismiss();
-				try {
-					Intent intent = new Intent(Intent.ACTION_PICK, null);
-					// 指定调用相机拍照后照片的储存路径
-					intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-					startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
-				} catch (Exception e) {
-					toast(getString(R.string.user_image_no_browser));
-				}
+				Intent intent = new Intent(StudentActivity.this, ImageAlbumActivity.class);
+				startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
 				break;
 			default:
 				break;

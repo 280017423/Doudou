@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/login_bg" >
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/view_title_layout" />
+
+    <ListView
+        android:id="@+id/lv_photo_album"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/title"
+        android:divider="@color/transparent"
+        android:dividerHeight="12dp"
+        android:listSelector="@color/transparent"
+        android:padding="10dp"
+        android:scrollbars="none" >
+    </ListView>
+
+    <TextView
+        android:id="@+id/tv_empty_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/title"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/not_have_album"
+        android:textColor="#05B0DE"
+        android:textSize="@dimen/size_2"
+        android:visibility="gone" />
+
+</RelativeLayout>

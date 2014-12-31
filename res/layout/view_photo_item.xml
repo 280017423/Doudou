@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.jnhlxd.doudou.widget.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center" >
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="128dp"
+        android:layout_height="100dp"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher" >
+    </ImageView>
+
+</com.jnhlxd.doudou.widget.SquareRelativeLayout>
