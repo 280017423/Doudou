@@ -29,7 +29,6 @@ import com.jnhlxd.doudou.req.UserReq;
 import com.jnhlxd.doudou.util.ConstantSet;
 import com.jnhlxd.doudou.util.ImageUtil;
 import com.jnhlxd.doudou.util.PopWindowUtil;
-import com.jnhlxd.doudou.util.ServerAPIConstant;
 import com.jnhlxd.doudou.widget.RoundImageView;
 import com.qianjiang.framework.util.FileUtil;
 import com.qianjiang.framework.util.StringUtil;
@@ -217,10 +216,10 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 							toast(getResources().getString(R.string.center_no_find_file));
 						}
 					});
+				} else {
 					ImageUtil.doCompressFile(file, mGzipFile); // 压缩文件
 					FileUtil.delete(file);
 					uploadPhoto();
-					return;
 				}
 				break;
 			default:
@@ -234,14 +233,12 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 
 			@Override
 			public void onSuccess(ActionResult result) {
-				// TODO Auto-generated method stub
-
+				sendMessageToHandler(UPDATE_SUCCESS, result);
 			}
 
 			@Override
 			public void onError(ActionResult result) {
-				// TODO Auto-generated method stub
-
+				sendMessageToHandler(UPDATE_FAIL, result);
 			}
 
 			@Override
@@ -251,7 +248,12 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 				return actionResult;
 			}
 		});
+	}
 
+	private void sendMessageToHandler(int what, ActionResult result) {
+		Message msg = mHandler.obtainMessage(what);
+		msg.obj = result;
+		mHandler.sendMessage(msg);
 	}
 
 	private File getCutImage(Intent picdata) {
