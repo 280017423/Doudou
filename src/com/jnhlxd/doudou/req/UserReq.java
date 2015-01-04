@@ -115,21 +115,22 @@ public class UserReq {
 	 * @return 服务器返回结果
 	 * 
 	 */
-	public static ActionResult uploadHeadImage(File file) {
+	public static ActionResult uploadHeadImage(File file, String childId) {
 
 		ActionResult result = new ActionResult();
 		ArrayList<File> list = new ArrayList<File>();
 		list.add(file);
-		String url = ServerAPIConstant.getUrl("---------");
+		String url = ServerAPIConstant.getUrl(ServerAPIConstant.API_UPLOAD_PHOTO);
 		List<NameValuePair> postParams = new ArrayList<NameValuePair>();
+		postParams.add(new BasicNameValuePair(ServerAPIConstant.KEY_CHILD_ID, childId));
 		JsonResult jsonResult;
 		try {
 			jsonResult = HttpClientUtil.post(url, null, postParams, list);
 			if (jsonResult != null) {
 				if (jsonResult.isOK()) {
-					String headurl = jsonResult.getDataString("=============");
+					String headUrl = jsonResult.getDataString(ServerAPIConstant.KEY_USER_IMAGE);
 					result.ResultCode = jsonResult.Code;
-					result.ResultObject = headurl;
+					result.ResultObject = headUrl;
 				} else {
 					result.ResultCode = jsonResult.Code;
 					result.ResultObject = jsonResult.Data;

@@ -46,5 +46,6 @@
     <string name="choose_photo">选择照片</string>
     <string name="choose_photo_ok">完成</string>
     <string name="not_have_album">你还没有相册哦</string>
+    <string name="upload_head_icon_success">上传头像成功</string>
 
 </resources>

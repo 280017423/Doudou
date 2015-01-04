@@ -9,6 +9,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
@@ -27,9 +29,11 @@ import com.jnhlxd.doudou.req.UserReq;
 import com.jnhlxd.doudou.util.ConstantSet;
 import com.jnhlxd.doudou.util.ImageUtil;
 import com.jnhlxd.doudou.util.PopWindowUtil;
+import com.jnhlxd.doudou.util.ServerAPIConstant;
 import com.jnhlxd.doudou.widget.RoundImageView;
 import com.qianjiang.framework.util.FileUtil;
 import com.qianjiang.framework.util.StringUtil;
+import com.qianjiang.framework.widget.LoadingUpView;
 
 public class StudentActivity extends ActivityBase implements OnClickListener {
 
@@ -38,6 +42,9 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 	public static final int PHOTO_REQUEST_CUT = 3; // 结果
 	public static final int MSG_PHOTO_UPLOAD_SUCCESS = 4; // 结果
 	public static final int MSG_PHOTO_UPLOAD_FAIL = 5; // 结果
+	public static final int UPDATE_SUCCESS = 6; // 结果
+	public static final int UPDATE_FAIL = 7; // 结果
+
 	private LinearLayout mLlBack;
 	private StudentModel mStudentModel;
 	private TextView mTvClassName;
@@ -46,7 +53,32 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 	private List<ClassInfoModel> mClassInfoModels;
 	private PopWindowUtil mPopWindowUtil;
 	public static String TEMP_PHONE_FILENAME = "";
-	public static File GZIP_FILE = new File(Environment.getExternalStorageDirectory(), "TempHeadImage.gz");
+	private LoadingUpView mLoadingUpView;
+	private File mGzipFile;
+
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			ActionResult result = (ActionResult) msg.obj;
+			dismissLoadingUpView(mLoadingUpView);
+			switch (msg.what) {
+				case UPDATE_SUCCESS:
+					String headUrl = (String) result.ResultObject;
+					mStudentModel.setHeadIcon(headUrl);
+					Intent intent = new Intent(StudentActivity.this, MainActivity.class);
+					intent.putExtra(ConstantSet.KEY_STUDENT_MODEL, mStudentModel);
+					setResult(RESULT_OK, intent);
+					toast(getString(R.string.upload_head_icon_success));
+					finish();
+					break;
+				case UPDATE_FAIL:
+					showErrorMsg(result);
+					break;
+				default:
+					break;
+			}
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +90,18 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 	}
 
 	private void initVariables() {
+		mLoadingUpView = new LoadingUpView(this);
 		mStudentModel = (StudentModel) getIntent().getSerializableExtra(ConstantSet.KEY_STUDENT_MODEL);
 		if (null == mStudentModel) {
 			finish();
 		}
 		mClassInfoModels = ClassDao.getClassInfoModels();
+		if (ImageUtil.hasSdcard()) {
+			mGzipFile = new File(Environment.getExternalStorageDirectory(), "TempHeadImage.gz");
+		} else {
+			toast(getString(R.string.user_image_no_sdcard));
+			finish();
+		}
 	}
 
 	private void setListener() {
@@ -178,8 +217,9 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 							toast(getResources().getString(R.string.center_no_find_file));
 						}
 					});
-					ImageUtil.doCompressFile(file, GZIP_FILE); // 压缩文件
+					ImageUtil.doCompressFile(file, mGzipFile); // 压缩文件
 					FileUtil.delete(file);
+					uploadPhoto();
 					return;
 				}
 				break;
@@ -189,6 +229,7 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 	}
 
 	private void uploadPhoto() {
+		showLoadingUpView(mLoadingUpView);
 		new ActionProcessor().startAction(this, new IActionListener() {
 
 			@Override
@@ -205,8 +246,8 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 
 			@Override
 			public ActionResult onAsyncRun() {
-				ActionResult actionResult = UserReq.uploadHeadImage(GZIP_FILE);
-				FileUtil.delete(GZIP_FILE); // 删除文件
+				ActionResult actionResult = UserReq.uploadHeadImage(mGzipFile, mStudentModel.getChildId());
+				FileUtil.delete(mGzipFile); // 删除文件
 				return actionResult;
 			}
 		});

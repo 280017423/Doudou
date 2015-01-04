@@ -377,7 +377,16 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
+		if (RESULT_OK == resultCode && REQUEST_CODE_TAKEPHOTO == requestCode && null != data) {
+			StudentModel model = (StudentModel) data.getSerializableExtra(ConstantSet.KEY_STUDENT_MODEL);
+			for (int i = 0; i < mStudentModels.size(); i++) {
+				StudentModel currentModel = mStudentModels.get(i);
+				if (currentModel.getChildId().equals(model.getChildId())) {
+					currentModel.setHeadIcon(model.getHeadIcon());
+				}
+			}
+			mAdapter.notifyDataSetChanged();
+		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
