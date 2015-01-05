@@ -133,7 +133,7 @@ public class UserReq {
 					result.ResultObject = headUrl;
 				} else {
 					result.ResultCode = jsonResult.Code;
-					result.ResultObject = jsonResult.Data;
+					result.ResultObject = jsonResult.Msg;
 				}
 			} else {
 				result.ResultCode = ActionResult.RESULT_CODE_NET_ERROR;

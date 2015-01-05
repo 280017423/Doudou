@@ -74,18 +74,19 @@ public class StudentAdapter extends BaseAdapter {
 		}
 		StudentModel model = mDataList.get(position);
 		if (null != model) {
+			holder.mTvName.setText(model.getName());
+			int status = model.getSignModelStatus();
 			if (StringUtil.isNullOrEmpty(model.getHeadIcon())) {
 				holder.mTvIcon.setVisibility(View.GONE);
 			} else {
 				holder.mTvIcon.setVisibility(View.VISIBLE);
 			}
-			holder.mTvName.setText(model.getName());
-			int status = model.getSignModelStatus();
 			switch (status) {
 				case StudentModel.SIGN_TYPE_NOT_SIGN:
 					holder.mTvName.setBackgroundResource(R.drawable.student_not_sign_selector);
 					holder.mTvName.setTextColor(Color.BLACK);
 					holder.mTvSignStatus.setVisibility(View.GONE);
+					holder.mTvIcon.setBackgroundResource(R.drawable.message_count_bg);
 					break;
 				case StudentModel.SIGN_TYPE_SIGNING:
 					holder.mTvName.setBackgroundResource(R.drawable.student_signing_selector);
@@ -96,6 +97,7 @@ public class StudentAdapter extends BaseAdapter {
 				case StudentModel.SIGN_TYPE_SIGNED:
 					holder.mTvName.setBackgroundResource(R.drawable.student_signed_selector);
 					holder.mTvName.setTextColor(Color.BLACK);
+					holder.mTvIcon.setBackgroundResource(R.drawable.message_count_bg);
 					if (DropPickModel.SIGN_TYPE_CASUAL_LEAVE == model.getSignMode()) {
 						holder.mTvSignStatus.setText("事");
 						holder.mTvSignStatus.setBackgroundResource(R.drawable.sign_status_bg);
