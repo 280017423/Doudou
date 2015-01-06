@@ -1,6 +1,5 @@
 package com.jnhlxd.doudou.util;
 
-import android.R.integer;
 import android.graphics.drawable.ColorDrawable;
 import android.os.CountDownTimer;
 import android.view.Gravity;
