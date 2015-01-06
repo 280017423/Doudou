@@ -53,7 +53,6 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 	private PopWindowUtil mPopWindowUtil;
 	public static String TEMP_PHONE_FILENAME = "";
 	private LoadingUpView mLoadingUpView;
-	private File mGzipFile;
 
 	private Handler mHandler = new Handler() {
 		@Override
@@ -95,12 +94,6 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 			finish();
 		}
 		mClassInfoModels = ClassDao.getClassInfoModels();
-		if (ImageUtil.hasSdcard()) {
-			mGzipFile = new File(Environment.getExternalStorageDirectory(), "TempHeadImage.gz");
-		} else {
-			toast(getString(R.string.user_image_no_sdcard));
-			finish();
-		}
 	}
 
 	private void setListener() {
@@ -217,9 +210,7 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 						}
 					});
 				} else {
-					ImageUtil.doCompressFile(file, mGzipFile); // 压缩文件
-					FileUtil.delete(file);
-					uploadPhoto();
+					uploadPhoto(file);
 				}
 				break;
 			default:
@@ -227,7 +218,7 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 		}
 	}
 
-	private void uploadPhoto() {
+	private void uploadPhoto(final File file) {
 		showLoadingUpView(mLoadingUpView);
 		new ActionProcessor().startAction(this, new IActionListener() {
 
@@ -243,8 +234,8 @@ public class StudentActivity extends ActivityBase implements OnClickListener {
 
 			@Override
 			public ActionResult onAsyncRun() {
-				ActionResult actionResult = UserReq.uploadHeadImage(mGzipFile, mStudentModel.getChildId());
-				FileUtil.delete(mGzipFile); // 删除文件
+				ActionResult actionResult = UserReq.uploadHeadImage(file, mStudentModel.getChildId());
+				FileUtil.delete(file); // 删除文件
 				return actionResult;
 			}
 		});

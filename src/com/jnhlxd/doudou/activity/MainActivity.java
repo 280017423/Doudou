@@ -47,6 +47,7 @@ import com.jnhlxd.doudou.service.PunchService;
 import com.jnhlxd.doudou.service.PunchService.PunchBinder;
 import com.jnhlxd.doudou.util.ConstantSet;
 import com.jnhlxd.doudou.util.PopWindowUtil;
+import com.jnhlxd.doudou.util.ServerAPIConstant;
 import com.jnhlxd.doudou.util.TtsUtil;
 import com.jnhlxd.doudou.widget.RoundImageView;
 import com.qianjiang.framework.util.EvtLog;
@@ -352,7 +353,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				casualLeaveModel.setSignMode(DropPickModel.SIGN_TYPE_CASUAL_LEAVE);
 				casualLeaveModel.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNING);
 				mSelectModels.add(casualLeaveModel);
-				initSignPop(casualLeaveModel.getSignId());
+				initSignPop(casualLeaveModel);
 				refreash();
 				mAdapter.notifyDataSetChanged();
 				break;
@@ -365,7 +366,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				sickLeaveModel.setSignMode(DropPickModel.SIGN_TYPE_SICK_LEAVE);
 				sickLeaveModel.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNING);
 				mSelectModels.add(sickLeaveModel);
-				initSignPop(sickLeaveModel.getSignId());
+				initSignPop(sickLeaveModel);
 				refreash();
 				mAdapter.notifyDataSetChanged();
 				break;
@@ -419,7 +420,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				model.setSignMode(mDropPickModel.getSignMode());
 				model.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNING);
 				mSelectModels.add(model);
-				initSignPop(model.getSignId());
+				initSignPop(model);
 				break;
 			case StudentModel.SIGN_TYPE_SIGNING:
 				model.setSignMode(0);
@@ -547,9 +548,22 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 				@Override
 				public void doAction() {
 					final String punchNo = mEdtPunchNo.getText().toString();
-					if (!initSignPop(punchNo)) {
-						// 不是无效卡才保存数据
-						sendData(punchNo);
+					if (!StringUtil.isNullOrEmpty(punchNo)) {
+						StudentModel studentModel = new StudentModel();
+						if (null != mAllStudentModels && !mAllStudentModels.isEmpty()) {
+							int size = mAllStudentModels.size();
+							for (int i = 0; i < size; i++) {
+								StudentModel model = mAllStudentModels.get(i);
+								if (punchNo.equals(model.getSignId())) {
+									studentModel = model;
+									break;
+								}
+							}
+						}
+						if (!initSignPop(studentModel)) {
+							// 不是无效卡才保存数据
+							sendData(punchNo);
+						}
 					}
 				}
 			});
@@ -580,22 +594,8 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		PunchMgr.savePunchModel2Db(punchNo, mDropPickModel.getSignMode());
 	}
 
-	private boolean initSignPop(String punchNo) {
+	private boolean initSignPop(StudentModel studentModel) {
 		boolean isInvalid = false;
-		if (StringUtil.isNullOrEmpty(punchNo)) {
-			return true;
-		}
-		StudentModel studentModel = new StudentModel();
-		if (null != mAllStudentModels && !mAllStudentModels.isEmpty()) {
-			int size = mAllStudentModels.size();
-			for (int i = 0; i < size; i++) {
-				StudentModel model = mAllStudentModels.get(i);
-				if (punchNo.equals(model.getSignId())) {
-					studentModel = model;
-					break;
-				}
-			}
-		}
 		View contentView = null;
 		if (null == contentView) {
 			contentView = View.inflate(this, R.layout.view_pop_sign, null);
@@ -636,7 +636,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 			tvName.setText(name);
 			mTtsUtil.startSpeak(className + name + "已" + mDropPickModel.getSignModeName());
 		}
-		String imgUrl = studentModel.getHeadIcon();
+		String imgUrl = ServerAPIConstant.getApiRootUrl() + "/" + studentModel.getHeadIcon();
 		if (!StringUtil.isNullOrEmpty(imgUrl)) {
 			mImageLoader.displayImage(imgUrl, ivIcon, mOptions);
 		}
