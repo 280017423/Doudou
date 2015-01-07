@@ -8,6 +8,8 @@
         <item>已出园</item>
         <item>已上车</item>
         <item>已下车</item>
+        <item>请病假</item>
+        <item>请事假</item>
     </string-array>
     <string-array name="drop_pick_name">
         <item>入园上车</item>

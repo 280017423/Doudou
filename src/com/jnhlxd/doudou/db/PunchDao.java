@@ -9,7 +9,6 @@ import com.jnhlxd.doudou.util.ConstantSet;
 import com.jnhlxd.doudou.util.DBUtil;
 import com.qianjiang.framework.orm.DataAccessException;
 import com.qianjiang.framework.orm.DataManager;
-import com.qianjiang.framework.util.DateUtil;
 
 /**
  * 

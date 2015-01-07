@@ -634,7 +634,8 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 			isInvalid = true;
 		} else {
 			tvName.setText(name);
-			mTtsUtil.startSpeak(className + name + "已" + mDropPickModel.getSignModeName());
+			String[] defaultSpeechArray = getResources().getStringArray(R.array.default_speech_msg);
+			mTtsUtil.startSpeak(className + name + defaultSpeechArray[studentModel.getSignMode() - 1]);
 		}
 		String imgUrl = ServerAPIConstant.getApiRootUrl() + "/" + studentModel.getHeadIcon();
 		if (!StringUtil.isNullOrEmpty(imgUrl)) {

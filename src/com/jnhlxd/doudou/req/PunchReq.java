@@ -50,7 +50,9 @@ public class PunchReq {
 			postParams.add(new BasicNameValuePair(ServerAPIConstant.KEY_SIGN_DATA, jsonString));
 			postParams.add(new BasicNameValuePair(ServerAPIConstant.KEY_DEVICE_ID, PackageUtil.getDeviceId()));
 			postParams.add(new BasicNameValuePair(ServerAPIConstant.KEY_APP, ServerAPIConstant.getAppSign()));
-			JsonResult jsonResult = HttpClientUtil.post(url, null, postParams);
+			JsonResult jsonResult = HttpClientUtil.post(url, HttpClientUtil.NORMAL_REQUEST, null, postParams);
+			// JsonResult jsonResult = HttpClientUtil.post(url, null,
+			// postParams);
 			if (jsonResult != null) {
 				if (!jsonResult.isOK()) {
 					result.ResultObject = jsonResult.Msg;
