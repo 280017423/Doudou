@@ -55,7 +55,7 @@ public class StudentModel extends BaseModel {
 	}
 
 	public String getName() {
-		return name;
+		return null == name ? "" : name;
 	}
 
 	public void setName(String name) {

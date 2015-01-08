@@ -635,7 +635,10 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		} else {
 			tvName.setText(name);
 			String[] defaultSpeechArray = getResources().getStringArray(R.array.default_speech_msg);
-			mTtsUtil.startSpeak(className + name + defaultSpeechArray[studentModel.getSignMode() - 1]);
+			int mode = studentModel.getSignMode() - 1;
+			if (mode > 0 && mode < defaultSpeechArray.length) {
+				mTtsUtil.startSpeak(className + name + defaultSpeechArray[mode]);
+			}
 		}
 		String imgUrl = ServerAPIConstant.getApiRootUrl() + "/" + studentModel.getHeadIcon();
 		if (!StringUtil.isNullOrEmpty(imgUrl)) {
