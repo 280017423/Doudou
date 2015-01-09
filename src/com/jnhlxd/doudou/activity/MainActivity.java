@@ -182,6 +182,12 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		mEdtPunchNo.requestFocus();
 	}
 
+	@Override
+	public void onResume() {
+		mEdtPunchNo.requestFocus();
+		super.onResume();
+	}
+
 	private void getStudents(String classId) {
 		List<StudentModel> models = StudentDao.getStudentModels(classId);
 		int stuSize = models.size();
@@ -645,6 +651,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 			mImageLoader.displayImage(imgUrl, ivIcon, mOptions);
 		}
 		mSignPopUtil.showAndDismiss();
+		mEdtPunchNo.requestFocus();
 		return isInvalid;
 	}
 }
