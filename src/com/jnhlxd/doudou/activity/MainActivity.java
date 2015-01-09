@@ -562,6 +562,8 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 								StudentModel model = mAllStudentModels.get(i);
 								if (punchNo.equals(model.getSignId())) {
 									studentModel = model;
+									// 打卡的时候默认的是当前选择的模式
+									studentModel.setSignMode(mDropPickModel.getSignMode());
 									break;
 								}
 							}
