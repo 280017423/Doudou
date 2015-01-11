@@ -644,7 +644,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 			tvName.setText(name);
 			String[] defaultSpeechArray = getResources().getStringArray(R.array.default_speech_msg);
 			int mode = studentModel.getSignMode() - 1;
-			if (mode > 0 && mode < defaultSpeechArray.length) {
+			if (mode >= 0 && mode < defaultSpeechArray.length) {
 				mTtsUtil.startSpeak(className + name + defaultSpeechArray[mode]);
 			}
 		}

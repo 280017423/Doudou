@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jnhlxd.doudou.R;
+import com.qianjiang.framework.util.PackageUtil;
 
 public class AboutActivity extends ActivityBase implements OnClickListener {
 
@@ -25,7 +26,7 @@ public class AboutActivity extends ActivityBase implements OnClickListener {
 
 	private void initVariables() {
 		try {
-			mVersionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+			mVersionName = PackageUtil.getVersionName();
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 		}
