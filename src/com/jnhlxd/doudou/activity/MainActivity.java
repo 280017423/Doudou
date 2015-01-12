@@ -66,6 +66,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 	private static final int DIALOG_EXIT_APP = 0;
 	private static final int REQUEST_CODE_TAKEPHOTO = 100;
 	private Button mBtnManualSign;
+	private View mViewManualSign;
 	private GridView mGvStudent;
 	private List<StudentModel> mAllStudentModels; // 全校所有学生
 	private List<StudentModel> mStudentModels; // 当前班级学生
@@ -156,6 +157,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		mTvToastInfo = (TextView) findViewById(R.id.tv_toast_info);
 		mTvDropPick = (TextView) findViewById(R.id.tv_drop_pick_mode);
 		mBtnManualSign = (Button) findViewById(R.id.btn_manual_sign);
+		mViewManualSign = findViewById(R.id.ll_manual_sign);
 		mGvStudent = (GridView) findViewById(R.id.gv_student);
 		mGvStudent.setAdapter(mAdapter);
 		initClassPop();
@@ -505,9 +507,9 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 
 	private void refreash() {
 		if (null == mSelectModels || mSelectModels.isEmpty()) {
-			mBtnManualSign.setVisibility(View.GONE);
+			mViewManualSign.setVisibility(View.GONE);
 		} else {
-			mBtnManualSign.setVisibility(View.VISIBLE);
+			mViewManualSign.setVisibility(View.VISIBLE);
 		}
 	}
 

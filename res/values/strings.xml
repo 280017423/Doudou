@@ -15,6 +15,7 @@
     <string name="drop_pick_mode">接送方式</string>
     <string name="sub_mode">考勤状态</string>
     <string name="manual_sign">手动打卡</string>
+    <string name="manual_sign_info">提示：请点击“手动打卡”完成考勤</string>
     <string name="choose_student">请先选择学生</string>
     <string name="left_student_count">还有<xliff:g>%1$s</xliff:g>条记录未提交</string>
     <string name="tv_casual_leave">事假</string>

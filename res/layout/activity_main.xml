@@ -77,21 +77,39 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_manual_sign"
+    <LinearLayout
+        android:id="@+id/ll_manual_sign"
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/student_signing_selector"
-        android:gravity="center"
-        android:onClick="onClick"
-        android:text="@string/manual_sign"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:visibility="gone" />
+        android:background="@color/black"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:background="@color/red"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="@string/manual_sign_info"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_manual_sign"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/student_manual_sign_selector"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="@string/manual_sign"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_toast_info"
@@ -110,7 +128,7 @@
         android:id="@+id/gv_student"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/btn_manual_sign"
+        android:layout_above="@id/ll_manual_sign"
         android:layout_below="@id/tv_toast_info"
         android:cacheColorHint="@android:color/transparent"
         android:clickable="true"
