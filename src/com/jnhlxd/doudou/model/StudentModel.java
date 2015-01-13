@@ -2,6 +2,7 @@ package com.jnhlxd.doudou.model;
 
 import com.qianjiang.framework.orm.BaseModel;
 import com.qianjiang.framework.orm.annotation.Transient;
+import com.qianjiang.framework.util.StringUtil;
 
 /**
  * 
@@ -66,6 +67,20 @@ public class StudentModel extends BaseModel {
 		return null == signId ? "" : signId;
 	}
 
+	/**
+	 * 若学生有多张卡，手动打卡时获取第一张卡
+	 * 
+	 * @return String 第一张卡
+	 */
+	public String getOneSignId() {
+		String signIdInfo = getSignId();
+		if (StringUtil.isNullOrEmpty(signIdInfo) || !signIdInfo.contains("#")) {
+			return signIdInfo;
+		} else {
+			return signIdInfo.split("#")[0];
+		}
+	}
+
 	public void setSignId(String signId) {
 		this.signId = signId;
 	}
@@ -84,6 +99,27 @@ public class StudentModel extends BaseModel {
 
 	public void setSignMode(int signMode) {
 		this.signMode = signMode;
+	}
+
+	/**
+	 * 判断一张卡是不是属于这个学生
+	 * 
+	 * @param id
+	 *            待检测卡号
+	 * @return boolean true表示属于，否则不属于
+	 */
+	public boolean isBelong(String id) {
+		String signIdInfo = getSignId();
+		if (StringUtil.isNullOrEmpty(signIdInfo) || StringUtil.isNullOrEmpty(id)) {
+			return false;
+		}
+		String[] signIds = signIdInfo.split("#");
+		for (int i = 0; i < signIds.length; i++) {
+			if (id.equals(signIds[i])) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

@@ -200,7 +200,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 			StudentModel studentModel = models.get(i);
 			for (int j = 0; j < size; j++) {
 				SignModel signModel = signModels.get(j);
-				if (studentModel.getSignId().equals(signModel.getSignId())) {
+				if (studentModel.isBelong(signModel.getSignId())) {
 					// 同步发送状态和签到类型
 					studentModel.setSignMode(signModel.getSignMode());
 					studentModel.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNED);
@@ -407,7 +407,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 		int size = mSelectModels.size();
 		for (int i = 0; i < size; i++) {
 			StudentModel model = mSelectModels.get(i);
-			String signId = model.getSignId();
+			String signId = model.getOneSignId();
 			PunchMgr.savePunchModel2Db(signId, model.getSignMode());
 			model.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNED);
 		}
@@ -562,7 +562,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 							int size = mAllStudentModels.size();
 							for (int i = 0; i < size; i++) {
 								StudentModel model = mAllStudentModels.get(i);
-								if (punchNo.equals(model.getSignId())) {
+								if (model.isBelong(punchNo)) {
 									studentModel = model;
 									// 打卡的时候默认的是当前选择的模式
 									studentModel.setSignMode(mDropPickModel.getSignMode());
@@ -591,7 +591,7 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 			int size = mStudentModels.size();
 			for (int i = 0; i < size; i++) {
 				StudentModel model = mStudentModels.get(i);
-				if (punchNo.equals(model.getSignId())) {
+				if (model.isBelong(punchNo)) {
 					model.setSignModelStatus(StudentModel.SIGN_TYPE_SIGNED);
 					mSelectModels.remove(model);
 					refreash();
