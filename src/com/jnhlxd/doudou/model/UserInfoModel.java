@@ -9,6 +9,7 @@ public class UserInfoModel extends BaseModel {
 	private String pwd;
 	private String email;
 	private String tel;
+	private String sex;
 
 	public String getTeacherId() {
 		return teacherId;
@@ -48,6 +49,14 @@ public class UserInfoModel extends BaseModel {
 
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 
 }
