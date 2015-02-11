@@ -1,11 +1,14 @@
 package com.jnhlxd.doudou.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.jnhlxd.doudou.authentication.ActionResult;
 import com.jnhlxd.doudou.db.DbDao;
 import com.jnhlxd.doudou.db.PunchDao;
 import com.jnhlxd.doudou.model.DropPickModel;
 import com.jnhlxd.doudou.model.SignModel;
+import com.jnhlxd.doudou.req.PunchReq;
 import com.qianjiang.framework.util.DateUtil;
 import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.StringUtil;
@@ -61,6 +64,16 @@ public class PunchMgr {
 		model.setSignMode(signMode);
 		model.setSignTime(DateUtil.getSysDate(DateUtil.DEFAULT_DATETIME_FORMAT));
 		DbDao.saveModel(model);
+		// 临时解决立即发送的功能
+		final List<SignModel> models = new ArrayList<SignModel>();
+		models.add(model);
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				PunchReq.submitSignInfo(models);
+			}
+		}).start();
 	}
 
 	/**

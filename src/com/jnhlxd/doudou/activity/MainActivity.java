@@ -191,6 +191,9 @@ public class MainActivity extends ActivityBase implements OnKeyListener, OnClick
 	}
 
 	private void getStudents(String classId) {
+		if (null == mDropPickModel) {
+			return;
+		}
 		List<StudentModel> models = StudentDao.getStudentModels(classId);
 		int stuSize = models.size();
 		// 恢复状态的逻辑

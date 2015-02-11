@@ -65,7 +65,11 @@
             android:value="true" />
         <meta-data
             android:name="api_root_url"
-            android:value="http://60.216.5.227:1043" />
+            android:value="http://www.kstms.com" />
+        <!--
+            演示地址
+            android:value="http://60.216.5.227:1043"
+        -->
         <meta-data
             android:name="is_developing"
             android:value="false" />
