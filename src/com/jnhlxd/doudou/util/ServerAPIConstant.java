@@ -9,10 +9,9 @@ import com.qianjiang.framework.util.AppUtil;
  * @author zou.sq
  */
 public class ServerAPIConstant {
-	public static final String API_LOGIN = "/child/login";
-	public static final String API_CHECK_VERSION = "/status/checkVersion";
-	public static final String API_SUBMIT_SIGN_INFO = "/child/submitSignInfo";
-	public static final String API_UPLOAD_PHOTO = "/child/uploadPhoto";
+	public static final String API_LOGIN = "/child/login/";
+	public static final String API_SUBMIT_SIGN_INFO = "/child/submitSignInfo/";
+	public static final String API_UPLOAD_PHOTO = "/child/uploadPhoto/";
 
 	public static final String API_ROOT_URL = "api_root_url";
 	public static final String KEY_APP_SIGN = "appSign";
