@@ -6,14 +6,21 @@ import java.util.TimerTask;
 
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jnhlxd.doudou.R;
 import com.jnhlxd.doudou.authentication.ActionProcessor;
 import com.jnhlxd.doudou.db.DbDao;
 import com.jnhlxd.doudou.manager.PunchMgr;
+import com.jnhlxd.doudou.model.AdverModel;
 import com.jnhlxd.doudou.model.DropPickModel;
+import com.jnhlxd.doudou.req.UserReq;
 import com.jnhlxd.doudou.util.ConstantSet;
 import com.jnhlxd.doudou.util.SharedPreferenceUtil;
 import com.qianjiang.framework.authentication.BaseLoginProcessor.LOGIN_TYPE;
@@ -34,14 +41,55 @@ public class LoadingActivity extends ActivityBase {
 	private static final int DISPLAY_TIME = 3000;
 	private static final String TAG = "LoadingActivity";
 	private static final int SIGN_MODULE_MODEL_SIZE = 6;
+	private ImageView mIvAdver;
+	private TextView mTvAdver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_loading);
+		initViews();
 		initSignModule();
 		MobclickAgent.updateOnlineConfig(this);
 		testJump();
+		getAdver();
+		displayAdver();
+	}
+
+	private void initViews() {
+		mIvAdver = (ImageView) findViewById(R.id.iv_adver);
+		mTvAdver = (TextView) findViewById(R.id.tv_adver);
+	}
+
+	private void displayAdver() {
+		List<AdverModel> models = DbDao.getModels(AdverModel.class);
+		if (null != models && !models.isEmpty()) {
+			final AdverModel model = models.get(0);
+			mImageLoader.displayImage(model.getImg(), mIvAdver, mOptions);
+			mTvAdver.setText(model.getMc());
+			mIvAdver.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					try {
+						Intent intent = new Intent(Intent.ACTION_VIEW);
+						intent.setData(Uri.parse(model.getUrl()));
+						startActivity(intent);
+					} catch (Exception e) {
+					}
+				}
+			});
+		}
+	}
+
+	private void getAdver() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				UserReq.getAdver();
+			}
+		}).start();
 	}
 
 	private void testJump() {

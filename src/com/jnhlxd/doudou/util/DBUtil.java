@@ -3,6 +3,7 @@ package com.jnhlxd.doudou.util;
 import android.content.Context;
 
 import com.jnhlxd.doudou.manager.DBMgr;
+import com.jnhlxd.doudou.model.AdverModel;
 import com.jnhlxd.doudou.model.ClassInfoModel;
 import com.jnhlxd.doudou.model.DropPickModel;
 import com.jnhlxd.doudou.model.SchoolInfoModel;
@@ -36,6 +37,7 @@ public class DBUtil {
 			DATABASE_BUILDER.addClass(SignModel.class);
 			DATABASE_BUILDER.addClass(StudentModel.class);
 			DATABASE_BUILDER.addClass(SystemModel.class);
+			DATABASE_BUILDER.addClass(AdverModel.class);
 		}
 	}
 

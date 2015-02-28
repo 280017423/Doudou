@@ -10,8 +10,10 @@ import org.apache.http.message.BasicNameValuePair;
 import com.jnhlxd.doudou.R;
 import com.jnhlxd.doudou.authentication.ActionResult;
 import com.jnhlxd.doudou.db.ClassDao;
+import com.jnhlxd.doudou.db.DbDao;
 import com.jnhlxd.doudou.db.StudentDao;
 import com.jnhlxd.doudou.manager.UserMgr;
+import com.jnhlxd.doudou.model.AdverModel;
 import com.jnhlxd.doudou.model.ClassInfoModel;
 import com.jnhlxd.doudou.model.SchoolInfoModel;
 import com.jnhlxd.doudou.model.StudentModel;
@@ -144,4 +146,33 @@ public class UserReq {
 		return result;
 	}
 
+	public static ActionResult getAdver() {
+		ActionResult result = new ActionResult();
+		String url = ServerAPIConstant.getUrl(ServerAPIConstant.API_GET_ADV);
+		try {
+			JsonResult jsonResult = HttpClientUtil.get(url, null);
+			if (jsonResult != null) {
+				result.ResultCode = jsonResult.Code;
+				if (jsonResult.isOK()) {
+					AdverModel model = jsonResult.getData(new TypeToken<AdverModel>() {
+					}.getType());
+					// AdverModel model = new AdverModel();
+					// model.setImg("http://img2.imgtn.bdimg.com/it/u=3497083248,2140699794&fm=21&gp=0.jpg");
+					// model.setMc("这个是美女的测试图片这个是美女的测试图片这个是美女的测试图片这个是美女的测试图片这个是美女的测试图片这个是美女的测试图片这个是美女的测试图片这个是美女的测试图片这个是美女的测试图片这个是美女的测试图片");
+					// model.setUrl("http://img2.imgtn.bdimg.com/it/u=3497083248,2140699794&fm=21&gp=0.jpg");
+					if (null != model) {
+						DbDao.saveModel(model);
+					}
+					result.ResultObject = model;
+				} else {
+					result.ResultObject = jsonResult.Msg;
+				}
+			} else {
+				result.ResultCode = ActionResult.RESULT_CODE_NET_ERROR;
+			}
+		} catch (Exception e) {
+			result.ResultCode = ActionResult.RESULT_CODE_NET_ERROR;
+		}
+		return result;
+	}
 }
